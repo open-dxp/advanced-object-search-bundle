@@ -1,0 +1,19 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Class OpenDxp\\\\Bundle\\\\SimpleBackendSearchBundle\\\\Installer not found.$#"
+			reportUnmatched: false
+			count: 1
+			path: src/Installer.php
+
+		-
+			message: "#^Instantiated class OpenDxp\\\\Bundle\\\\SimpleBackendSearchBundle\\\\OpenDxpSimpleBackendSearchBundle not found.$#"
+			reportUnmatched: false
+			count: 1
+			path: src/AdvancedObjectSearchBundle.php
+
+		-
+			message: "#^Class OpenDxp\\\\Bundle\\\\SimpleBackendSearchBundle\\\\OpenDxpSimpleBackendSearchBundle not found.$#"
+			reportUnmatched: false
+			count: 1
+			path: src/AdvancedObjectSearchBundle.php

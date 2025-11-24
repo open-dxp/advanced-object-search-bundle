@@ -1,0 +1,95 @@
+framework:
+    messenger:
+        transports:
+            opendxp_index_queues: "doctrine://default?queue_name=opendxp_index_queues"
+
+        routing:
+            'OpenDxp\Bundle\AdvancedObjectSearchBundle\Messenger\QueueMessage': opendxp_index_queues
+
+
+opendxp_advanced_object_search:
+    index_configuration:
+        elements_per_loop: 100
+        nested_fields_limit: 200
+        total_fields_limit: 100000
+
+    field_definition_adapters:
+        default: 'bundle.advanced_object_search.filter.default'
+        calculatedValue: 'bundle.advanced_object_search.filter.calculatedValue'
+        checkbox: 'bundle.advanced_object_search.filter.checkbox'
+        country: 'bundle.advanced_object_search.filter.country'
+        countrymultiselect: 'bundle.advanced_object_search.filter.countrymultiselect'
+        date: 'bundle.advanced_object_search.filter.date'
+        datetime: 'bundle.advanced_object_search.filter.datetime'
+        fieldcollections: 'bundle.advanced_object_search.filter.fieldcollections'
+        manyToOneRelation: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToOneRelation'
+        language: 'bundle.advanced_object_search.filter.language'
+        languagemultiselect: 'bundle.advanced_object_search.filter.languagemultiselect'
+        localizedfields: 'bundle.advanced_object_search.filter.localizedfields'
+        manyToManyRelation: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToManyRelation'
+        advancedManyToManyRelation: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\AdvancedManyToManyRelation'
+        multiselect: 'bundle.advanced_object_search.filter.multiselect'
+        numeric: 'bundle.advanced_object_search.filter.numeric'
+        objectbricks: 'bundle.advanced_object_search.filter.objectbricks'
+        manyToManyObjectRelation: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToManyObjectRelation'
+        advancedManyToManyObjectRelation: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\AdvancedManyToManyObjectRelation'
+        quantityValue: 'bundle.advanced_object_search.filter.quantityValue'
+        select: 'bundle.advanced_object_search.filter.select'
+        time: 'bundle.advanced_object_search.filter.time'
+        user: 'bundle.advanced_object_search.filter.user'
+        table: 'bundle.advanced_object_search.filter.table'
+
+        # legacy mappings
+        href: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToOneRelation'
+        objects: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToManyObjectRelation'
+        multihref: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToManyRelation'
+        multihrefMetadata: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\AdvancedManyToManyRelation'
+        objectsMetadata: 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\AdvancedManyToManyObjectRelation'
+
+    core_fields_configuration:
+        -
+            field: id
+            type: long
+            title: ID
+            fieldDefinition: OpenDxp\Model\DataObject\ClassDefinition\Data\Numeric
+        -
+            field: index
+            type: long
+            title: Index
+            fieldDefinition: OpenDxp\Model\DataObject\ClassDefinition\Data\Numeric
+        -
+            field: creationDate
+            type: date
+            title: creationdate
+            fieldDefinition: OpenDxp\Model\DataObject\ClassDefinition\Data\Datetime
+        -
+            field: modificationDate
+            type: date
+            title: modificationdate
+            fieldDefinition: OpenDxp\Model\DataObject\ClassDefinition\Data\Datetime
+        -
+            field: published
+            type: boolean
+            title: published
+            fieldDefinition: OpenDxp\Model\DataObject\ClassDefinition\Data\Select
+            values: { options: [{ key: 'Yes', value: true }, { key: 'No', value: false }] }
+        -
+            field: type
+            type: keyword
+            title: type
+            fieldDefinition: OpenDxp\Model\DataObject\ClassDefinition\Data\Select
+            values: { options: [{ key: Variant, value: variant }, { key: Object, value: object }] }
+        -
+            field: key
+            type: keyword
+            title: key
+            fieldDefinition: OpenDxp\Model\DataObject\ClassDefinition\Data\Input
+        -
+            field: path
+            type: keyword
+            title: path
+            fieldDefinition: OpenDxp\Model\DataObject\ClassDefinition\Data\Input
+        -
+            field: className
+            title: classname
+            type: keyword

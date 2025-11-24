@@ -1,0 +1,171 @@
+
+services:
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Installer:
+        public: true
+        arguments:
+            $bundle: "@=service('kernel').getBundle('OpenDxpAdvancedObjectSearchBundle')"
+
+    # auto-register all controllers as services
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Controller\:
+        resource: '../../Controller'
+        public: true
+        tags: ['controller.service_arguments']
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Tools\IndexConfigService:
+        public: true
+        arguments:
+            $indexNamePrefix: '%opendxp.advanced_object_search.index_name_prefix%'
+            $indexConfiguration: '%opendxp.advanced_object_search.index_configuration%'
+        calls:
+            - [setLogger, ['@logger']]
+        tags:
+            - { name: monolog.logger, channel: advanced_object_search.es }
+
+    bundle.advanced_object_search.service.legacy_factory:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Factory\OpenSearch\LegacyServiceFactory
+        arguments:
+            $client: '@opendxp.advanced_object_search.search-client'
+
+    bundle.advanced_object_search.service:
+        alias: OpenDxp\Bundle\AdvancedObjectSearchBundle\Service
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Service:
+        factory: ['@bundle.advanced_object_search.service.legacy_factory', 'create']
+        arguments:
+            $filterLocator: '@bundle.advanced_object_search.filter_locator'
+        calls:
+            - [setCoreFieldsConfig, ['%advanced_object_search.core_fields_configuration%']]
+        tags:
+            - { name: monolog.logger, channel: opendxp_advanced_object_search }
+
+    bundle.advanced_object_search.eventlisteners:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\EventListener\IndexUpdateListener
+        arguments:
+            - '@OpenDxp\Bundle\AdvancedObjectSearchBundle\Service'
+        tags:
+            - { name: kernel.event_listener, event: opendxp.dataobject.postUpdate, method: updateObject }
+            - { name: kernel.event_listener, event: opendxp.dataobject.postAdd, method: updateObject }
+            - { name: kernel.event_listener, event: opendxp.dataobject.preDelete, method: deleteObject }
+            - { name: kernel.event_listener, event: opendxp.class.postUpdate, method: updateMapping }
+            - { name: kernel.event_listener, event: opendxp.class.postDelete, method: deleteIndex }
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Maintenance\UpdateQueueProcessor:
+        tags:
+            - { name: opendxp.maintenance.task, type: advancedobjectsearch_update_queue }
+
+    bundle.advanced_object_search.filter_locator:
+        class: Symfony\Component\DependencyInjection\ServiceLocator
+        tags: ['container.service_locator']
+
+    bundle.advanced_object_search.filter.default:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\DefaultAdapter
+        shared: false
+
+    bundle.advanced_object_search.filter.calculatedValue:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\CalculatedValue
+        shared: false
+
+    bundle.advanced_object_search.filter.checkbox:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Checkbox
+        shared: false
+
+    bundle.advanced_object_search.filter.country:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Country
+        shared: false
+
+    bundle.advanced_object_search.filter.countrymultiselect:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Countrymultiselect
+        shared: false
+
+    bundle.advanced_object_search.filter.date:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Date
+        shared: false
+
+    bundle.advanced_object_search.filter.datetime:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Datetime
+        shared: false
+
+    bundle.advanced_object_search.filter.fieldcollections:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Fieldcollections
+        shared: false
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToOneRelation:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToOneRelation
+        shared: false
+
+    bundle.advanced_object_search.filter.language:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Language
+        shared: false
+
+    bundle.advanced_object_search.filter.languagemultiselect:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Languagemultiselect
+        shared: false
+
+    bundle.advanced_object_search.filter.localizedfields:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Localizedfields
+        shared: false
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToManyRelation:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToManyRelation
+        shared: false
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\AdvancedManyToManyRelation:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\AdvancedManyToManyRelation
+        shared: false
+
+    bundle.advanced_object_search.filter.multiselect:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Multiselect
+        shared: false
+
+    bundle.advanced_object_search.filter.numeric:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Numeric
+        shared: false
+
+    bundle.advanced_object_search.filter.objectbricks:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Objectbricks
+        shared: false
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToManyObjectRelation:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\ManyToManyObjectRelation
+        shared: false
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\AdvancedManyToManyObjectRelation:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\AdvancedManyToManyObjectRelation
+        shared: false
+
+    bundle.advanced_object_search.filter.quantityValue:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\QuantityValue
+        shared: false
+
+    bundle.advanced_object_search.filter.select:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Select
+        shared: false
+
+    bundle.advanced_object_search.filter.time:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Time
+        shared: false
+
+    bundle.advanced_object_search.filter.user:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\User
+        shared: false
+
+    bundle.advanced_object_search.filter.table:
+        class: OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\Table
+        shared: false
+
+    # auto-register all commands as services
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Command\ProcessUpdateQueueCommand: ~
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Command\ReindexCommand:
+        arguments:
+            - '%opendxp.advanced_object_search.index_configuration%'
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Command\UpdateMappingCommand: ~
+
+
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\Messenger\QueueHandler:
+        tags:
+            - { name: messenger.message_handler }

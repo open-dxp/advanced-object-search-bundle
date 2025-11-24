@@ -1,0 +1,4 @@
+_opendxp_advancedobjectsearch_backend:
+    resource: "../../../Controller/"
+    type:     attribute
+    prefix:   /admin/bundle/advanced-object-search
