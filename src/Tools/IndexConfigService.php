@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Pimcore
+ * OpenDXP
  *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
+ * This source file is licensed under the GNU General Public License version 3 (GPLv3).
+ *
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Tools;
@@ -36,8 +36,6 @@ class IndexConfigService implements LoggerAwareInterface
     /**
      * IndexConfigService constructor.
      *
-     * @param string $indexNamePrefix
-     * @param array $indexConfiguration
      */
     public function __construct(string $indexNamePrefix, array $indexConfiguration)
     {
@@ -45,24 +43,17 @@ class IndexConfigService implements LoggerAwareInterface
         $this->indexConfiguration = $indexConfiguration;
     }
 
-    /**
-     * @return string
-     */
     public function getIndexNamePrefix(): string
     {
         return $this->indexNamePrefix;
     }
 
-    /**
-     * @param string $indexNamePrefix
-     */
     public function setIndexNamePrefix(string $indexNamePrefix): void
     {
         $this->indexNamePrefix = $indexNamePrefix;
     }
 
     /**
-     * @param string $key
      *
      * @return mixed
      */
@@ -71,9 +62,6 @@ class IndexConfigService implements LoggerAwareInterface
         return $this->indexConfiguration[$key] ?? null;
     }
 
-    /**
-     * @return LoggerInterface|null
-     */
     public function getLogger(): ?LoggerInterface
     {
         return $this->logger;

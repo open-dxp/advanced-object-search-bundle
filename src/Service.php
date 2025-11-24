@@ -1,26 +1,20 @@
 <?php
 
 /**
- * Pimcore
+ * OpenDXP
  *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
+ * This source file is licensed under the GNU General Public License version 3 (GPLv3).
+ *
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle;
 
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\AdvancedObjectSearchEvents;
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\FilterSearchEvent;
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\FieldDefinitionAdapterInterface;
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FilterEntry;
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Tools\IndexConfigService;
 use Doctrine\DBAL\Exception as DoctrineDbalException;
 use Exception;
 use ONGR\ElasticsearchDSL\BuilderInterface;
@@ -29,16 +23,21 @@ use ONGR\ElasticsearchDSL\Query\FullText\QueryStringQuery;
 use ONGR\ElasticsearchDSL\Query\TermLevel\WildcardQuery;
 use ONGR\ElasticsearchDSL\Search;
 use ONGR\ElasticsearchDSL\Sort\FieldSort;
-use OpenSearch\Client as OpenSearchClient;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\AdvancedObjectSearchEvents;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\FilterSearchEvent;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter\FieldDefinitionAdapterInterface;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FilterEntry;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Tools\IndexConfigService;
 use OpenDxp\Db;
 use OpenDxp\Model\DataObject\ClassDefinition;
 use OpenDxp\Model\DataObject\Concrete;
 use OpenDxp\Model\DataObject\Fieldcollection\Definition;
-use OpenDxp\Model\DataObject\Service as DataObjectService;
 use OpenDxp\Model\User;
 use OpenDxp\SearchClient\SearchClientInterface;
 use OpenDxp\Security\User\TokenStorageUserResolver;
 use OpenDxp\Translation\Translator;
+use OpenSearch\Client as OpenSearchClient;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -75,8 +74,6 @@ class Service
     /**
      * returns field definition adapter for given field definition
      *
-     * @param ClassDefinition\Data $fieldDefinition
-     * @param bool $considerInheritance
      *
      * @return FieldDefinitionAdapterInterface
      *
@@ -155,13 +152,10 @@ class Service
             'type' => $object->getType(),
             'className' => $object->getClassName(),
             'key' => $object->getKey(),
-            'path' => $object->getPath()
+            'path' => $object->getPath(),
         ];
     }
 
-    /**
-     * @param array $coreFieldsConfig
-     */
     public function setCoreFieldsConfig(array $coreFieldsConfig)
     {
         $this->coreFieldsConfig = $coreFieldsConfig;
@@ -183,7 +177,6 @@ class Service
 
     /**
      * @param string $name
-     * @param array $data
      *
      * @return ClassDefinition\Data
      */
@@ -225,7 +218,6 @@ class Service
     /**
      * generates and returns mapping for given class definition
      *
-     * @param ClassDefinition $objectClass
      *
      * @return array
      */
@@ -236,7 +228,7 @@ class Service
         $mappingProperties = array_map(
             function ($fieldProperties) {
                 return [
-                    'type' => $fieldProperties['type']
+                    'type' => $fieldProperties['type'],
                 ];
             },
             $this->getCoreFieldsConfig()
@@ -248,7 +240,7 @@ class Service
             }
 
             $fieldDefinitionAdapter = $this->getFieldDefinitionAdapter($fieldDefinition, $objectClass->getAllowInherit());
-            list($key, $mappingEntry) = $fieldDefinitionAdapter->getESMapping();
+            [$key, $mappingEntry] = $fieldDefinitionAdapter->getESMapping();
             $mappingProperties[$key] = $mappingEntry;
         }
 
@@ -256,10 +248,10 @@ class Service
             'index' => $this->getIndexName($objectClass->getName()),
             'body' => [
                 '_source' => [
-                    'enabled' => true
+                    'enabled' => true,
                 ],
-                'properties' => $mappingProperties
-            ]
+                'properties' => $mappingProperties,
+            ],
         ];
     }
 
@@ -270,7 +262,6 @@ class Service
      *  - if that fails, delete and create index and try update mapping again and resets update queue
      *  - if that also fails, throws exception
      *
-     * @param ClassDefinition $classDefinition
      *
      * @return bool
      *
@@ -317,7 +308,6 @@ class Service
     /**
      * updates mapping for index - throws exception if not successful
      *
-     * @param ClassDefinition $classDefinition
      *
      * @throws Exception
      */
@@ -336,7 +326,6 @@ class Service
     /**
      * creates new search index and deletes old one if exists
      *
-     * @param ClassDefinition $classDefinition
      */
     protected function createIndex(ClassDefinition $classDefinition)
     {
@@ -360,17 +349,17 @@ class Service
                                 'nested_fields' => [
                                     'limit' => (int) $this->indexConfigService->getIndexConfiguration(
                                         'nested_fields_limit'
-                                    )
+                                    ),
                                 ],
                                 'total_fields' => [
                                     'limit' => (int) $this->indexConfigService->getIndexConfiguration(
                                         'total_fields_limit'
-                                    )
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
+                                    ),
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ]);
         } catch (Exception $e) {
             $this->logger->error($e);
@@ -387,7 +376,6 @@ class Service
     /**
      * returns index data array for given object
      *
-     * @param Concrete $object
      *
      * @return array
      *
@@ -412,14 +400,13 @@ class Service
         return [
             'index' => $this->getIndexName($object->getClassName()),
             'id' => $object->getId(),
-            'body' => $data
+            'body' => $data,
         ];
     }
 
     /**
      * Updates index for given object
      *
-     * @param Concrete $object
      * @param bool $ignoreUpdateQueue - if true doesn't fillup update queue for children objects
      *
      * @return bool
@@ -434,7 +421,7 @@ class Service
 
         $params = [
             'index' => $this->getIndexName($object->getClassName()),
-            'id' => $object->getId()
+            'id' => $object->getId(),
         ];
 
         try {
@@ -469,7 +456,6 @@ class Service
     /**
      * Updates object queue - either inserts entry (if not exists) or updates in_queue flag to false
      *
-     * @param Concrete $object
      *
      * @throws DoctrineDbalException
      */
@@ -493,7 +479,7 @@ class Service
 
         $params = [
             'index' => $this->getIndexName($object->getClassName()),
-            'id' => $object->getId()
+            'id' => $object->getId(),
         ];
 
         $this->logger->info('Deleting data object ' . $object->getId() . ' from es index.');
@@ -503,7 +489,6 @@ class Service
     /**
      * fills update queue based on path of given object -> for all sub objects
      *
-     * @param Concrete $object
      *
      * @throws DoctrineDbalException
      */
@@ -541,10 +526,7 @@ class Service
     }
 
     /**
-     * @param string $workerId
-     * @param int $limit
      *
-     * @return array
      *
      * @throws DoctrineDbalException
      */
@@ -560,10 +542,7 @@ class Service
     }
 
     /**
-     * @param string $workerId
-     * @param array $entries
      *
-     * @return int
      *
      * @throws DoctrineDbalException
      */
@@ -601,7 +580,6 @@ class Service
     }
 
     /**
-     * @param ClassDefinition $objectClass
      * @param FilterEntry[] $filters
      *
      * either array of FilterEntry objects like
@@ -643,9 +621,6 @@ class Service
     /**
      * populates bool query from given filters. for details to filters see comment on getFilter() method
      *
-     * @param BoolQuery $query
-     * @param ClassDefinition $objectClass
-     * @param array $filters
      *
      * @return BoolQuery
      *
@@ -721,10 +696,7 @@ class Service
 
     /**
      * @param string $classId
-     * @param array $filters
      * @param BuilderInterface|string $fullTextQuery
-     *
-     * @return array
      *
      * @throws Exception
      */
@@ -740,7 +712,7 @@ class Service
             'index' => $this->getIndexName($classDefinition->getName()),
             'track_total_hits' => true,
             'rest_total_hits_as_int' => true,
-            'body' => $search->toArray()
+            'body' => $search->toArray(),
         ];
 
         $this->logger->info('Filter-Params: ' . json_encode($params));
@@ -781,7 +753,6 @@ class Service
 
     /**
      * @param string $classId
-     * @param array $filters
      * @param BuilderInterface|string $fullTextQuery
      * @param int $from
      * @param int $size
@@ -811,7 +782,7 @@ class Service
             'index' => $this->getIndexName($classDefinition->getName()),
             'track_total_hits' => true,
             'rest_total_hits_as_int' => true,
-            'body' => $search->toArray()
+            'body' => $search->toArray(),
         ];
 
         $this->logger->info('Filter-Params: ' . json_encode($params));
@@ -822,7 +793,6 @@ class Service
     /**
      * adds filter to exclude forbidden paths
      *
-     * @param Search $search
      *
      * @throws Exception
      */
@@ -864,11 +834,6 @@ class Service
         return $ids;
     }
 
-    /**
-     * @param string $className
-     *
-     * @return bool
-     */
     protected function isExcludedClass(string $className): bool
     {
         $excludeClasses = $this->indexConfigService->getIndexConfiguration('exclude_classes');
@@ -877,12 +842,6 @@ class Service
             && in_array($className, $excludeClasses);
     }
 
-    /**
-     * @param string $className
-     * @param string $fieldName
-     *
-     * @return bool
-     */
     protected function isExcludedField(string $className, string $fieldName): bool
     {
         $excludeFields = $this->indexConfigService->getIndexConfiguration('exclude_fields');

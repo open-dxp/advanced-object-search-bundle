@@ -2,28 +2,28 @@
 declare(strict_types=1);
 
 /**
- * Pimcore
+ * OpenDXP
  *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
+ * This source file is licensed under the GNU General Public License version 3 (GPLv3).
+ *
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Factory\OpenSearch;
 
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Service;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Tools\IndexConfigService;
-use OpenSearch\ClientBuilder;
 use OpenDxp\Bundle\ElasticsearchClientBundle\SearchClient\ElasticsearchClientInterface;
 use OpenDxp\Bundle\OpenSearchClientBundle\SearchClient\OpenSearchClientInterface;
 use OpenDxp\SearchClient\SearchClientInterface;
 use OpenDxp\Security\User\TokenStorageUserResolver;
 use OpenDxp\Translation\Translator;
+use OpenSearch\ClientBuilder;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
@@ -31,6 +31,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @internal
+ *
  * @deprecated will be removed in version 7.0
  */
 final class LegacyServiceFactory
@@ -42,15 +43,13 @@ final class LegacyServiceFactory
         private readonly Translator $translator,
         private readonly IndexConfigService $indexConfigService,
         private readonly SearchClientInterface $client
-    )
-    {
+    ) {
 
     }
 
     public function create(
         ContainerInterface $filterLocator
-    ): Service
-    {
+    ): Service {
         $openSearchClient = match (true) {
             $this->client instanceof OpenSearchClientInterface => $this->client->getOriginalClient(),
             $this->client instanceof ElasticsearchClientInterface => ClientBuilder::create()->build(),

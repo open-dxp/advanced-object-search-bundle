@@ -1,25 +1,25 @@
 <?php
 
 /**
- * Pimcore
+ * OpenDXP
  *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
+ * This source file is licensed under the GNU General Public License version 3 (GPLv3).
+ *
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter;
 
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FilterEntry;
 use ONGR\ElasticsearchDSL\BuilderInterface;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
 use ONGR\ElasticsearchDSL\Query\Joining\NestedQuery;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FilterEntry;
 use OpenDxp\Model\DataObject\AbstractObject;
 use OpenDxp\Model\DataObject\ClassDefinition\Data;
 use OpenDxp\Model\DataObject\Concrete;
@@ -66,13 +66,13 @@ class Fieldcollections extends DefaultAdapter implements FieldDefinitionAdapterI
             $childMappingProperties = [];
             foreach ($fieldCollectionDefinition->getFieldDefinitions() as $field) {
                 $fieldDefinitionAdapter = $this->service->getFieldDefinitionAdapter($field, false);
-                list($key, $mappingEntry) = $fieldDefinitionAdapter->getESMapping();
+                [$key, $mappingEntry] = $fieldDefinitionAdapter->getESMapping();
                 $childMappingProperties[$key] = $mappingEntry;
             }
 
             $mappingProperties[$fieldCollectionKey] = [
                 'type' => 'nested',
-                'properties' => $childMappingProperties
+                'properties' => $childMappingProperties,
             ];
         }
 
@@ -80,8 +80,8 @@ class Fieldcollections extends DefaultAdapter implements FieldDefinitionAdapterI
             $this->fieldDefinition->getName(),
             [
                 'type' => 'nested',
-                'properties' => $mappingProperties
-            ]
+                'properties' => $mappingProperties,
+            ],
         ];
     }
 
@@ -180,9 +180,6 @@ class Fieldcollections extends DefaultAdapter implements FieldDefinitionAdapterI
         return $data;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getFieldSelectionInformation()
     {
         $allowedTypes = [];

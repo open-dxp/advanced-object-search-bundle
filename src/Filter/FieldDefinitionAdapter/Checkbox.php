@@ -1,24 +1,24 @@
 <?php
 
 /**
- * Pimcore
+ * OpenDXP
  *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
+ * This source file is licensed under the GNU General Public License version 3 (GPLv3).
+ *
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter;
 
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
 use ONGR\ElasticsearchDSL\BuilderInterface;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
 use ONGR\ElasticsearchDSL\Query\TermLevel\TermQuery;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
 use OpenDxp\Model\DataObject\AbstractObject;
 use OpenDxp\Model\DataObject\Concrete;
 
@@ -46,9 +46,9 @@ class Checkbox extends DefaultAdapter implements FieldDefinitionAdapterInterface
                         ],
                         self::INDEX_MAPPING_PROPERTY_NOT_INHERITED => [
                             'type' => 'boolean',
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ];
         }
 
@@ -56,7 +56,7 @@ class Checkbox extends DefaultAdapter implements FieldDefinitionAdapterInterface
             $this->fieldDefinition->getName(),
             [
                 'type' => 'boolean',
-            ]
+            ],
         ];
     }
 
@@ -119,9 +119,6 @@ class Checkbox extends DefaultAdapter implements FieldDefinitionAdapterInterface
         return new TermQuery($path . $this->fieldDefinition->getName() . $this->buildQueryFieldPostfix($ignoreInheritance), $fieldFilter);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getFieldSelectionInformation()
     {
         return [new FieldSelectionInformation(
@@ -130,7 +127,7 @@ class Checkbox extends DefaultAdapter implements FieldDefinitionAdapterInterface
             $this->fieldType,
             [
                 'operators' => [BoolQuery::MUST, BoolQuery::MUST_NOT],
-                'classInheritanceEnabled' => $this->considerInheritance
+                'classInheritanceEnabled' => $this->considerInheritance,
             ]
         )];
     }

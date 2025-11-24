@@ -1,25 +1,25 @@
 <?php
 
 /**
- * Pimcore
+ * OpenDXP
  *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
+ * This source file is licensed under the GNU General Public License version 3 (GPLv3).
+ *
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Controller;
 
+use OpenDxp\Bundle\AdminBundle\Helper\QueryParams;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\AdvancedObjectSearchEvents;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\FilterListingEvent;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Model\SavedSearch;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Service;
-use OpenDxp\Bundle\AdminBundle\Helper\QueryParams;
 use OpenDxp\Controller\Traits\JsonHelperTrait;
 use OpenDxp\Controller\UserAwareController;
 use OpenDxp\Db;
@@ -50,11 +50,13 @@ class AdminController extends UserAwareController
                 $classId = strip_tags($request->query->getString('class_id'));
                 $definition = DataObject\ClassDefinition::getById($classId);
                 $allowInheritance = $definition->getAllowInherit();
+
                 break;
 
             case 'fieldcollection':
                 $key = strip_tags($request->query->getString('key'));
                 $definition = DataObject\Fieldcollection\Definition::getByKey($key);
+
                 break;
 
             case 'objectbrick':
@@ -331,7 +333,7 @@ class AdminController extends UserAwareController
                 'description' => $result->getDescription(),
                 'category' => $result->getCategory(),
                 'owner' => $result->getOwner() ? $result->getOwner()->getUsername() . ' (' . $result->getOwner()->getFirstname() . ' ' . $result->getOwner()->getLastName() . ')' : '',
-                'ownerId' => $result->getOwnerId()
+                'ownerId' => $result->getOwnerId(),
             ];
         }
 
@@ -395,10 +397,10 @@ class AdminController extends UserAwareController
                     'sharedUserIds' => $savedSearch->getSharedUserIds(),
                     'shareGlobally' => $savedSearch->getShareGlobally(),
                     'isOwner' => $savedSearch->getOwnerId() == $this->getOpenDxpUser()->getId(),
-                    'hasShortCut' => $savedSearch->isInShortCutsForUser($this->getOpenDxpUser())
+                    'hasShortCut' => $savedSearch->isInShortCutsForUser($this->getOpenDxpUser()),
                 ],
                 'conditions' => $config['conditions'],
-                'gridConfig' => $config['gridConfig']
+                'gridConfig' => $config['gridConfig'],
             ]);
         }
 
@@ -415,7 +417,7 @@ class AdminController extends UserAwareController
                 true,
                 $this->getOpenDxpUser()->getId(),
                 '%,' . $this->getOpenDxpUser()->getId() . ',%',
-                '%,' . $this->getOpenDxpUser()->getId() . ',%'
+                '%,' . $this->getOpenDxpUser()->getId() . ',%',
             ]
         );
         $list->load();
@@ -424,7 +426,7 @@ class AdminController extends UserAwareController
         foreach ($list->getSavedSearches() as $entry) {
             $entries[] = [
                 'id' => $entry->getId(),
-                'name' => $entry->getName()
+                'name' => $entry->getName(),
             ];
         }
 
@@ -479,7 +481,7 @@ class AdminController extends UserAwareController
         foreach ($userList as $user) {
             $users[] = [
                 'id' => $user->getId(),
-                'label' => $user->getName()
+                'label' => $user->getName(),
             ];
         }
 
@@ -499,7 +501,7 @@ class AdminController extends UserAwareController
         foreach ($rolesList->getRoles() as $role) {
             $roles[] = [
                 'id' => $role->getId(),
-                'label' => $role->getName()
+                'label' => $role->getName(),
             ];
         }
 
