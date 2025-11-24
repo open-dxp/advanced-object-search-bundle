@@ -1,26 +1,26 @@
 <?php
 
 /**
- * Pimcore
+ * OpenDXP
  *
- * This source file is available under two different licenses:
- * - GNU General Public License version 3 (GPLv3)
- * - Pimcore Commercial License (PCL)
+ * This source file is licensed under the GNU General Public License version 3 (GPLv3).
+ *
  * Full copyright and license information is available in
  * LICENSE.md which is distributed with this source code.
  *
- *  @copyright  Copyright (c) Pimcore GmbH (http://www.pimcore.org)
- *  @license    http://www.pimcore.org/license     GPLv3 and PCL
+ * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter;
 
-use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
 use ONGR\ElasticsearchDSL\BuilderInterface;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
 use ONGR\ElasticsearchDSL\Query\FullText\QueryStringQuery;
 use ONGR\ElasticsearchDSL\Query\Joining\NestedQuery;
 use ONGR\ElasticsearchDSL\Query\TermLevel\TermQuery;
+use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
 use OpenDxp\Model\DataObject\AbstractObject;
 use OpenDxp\Model\DataObject\ClassDefinition\Data;
 use OpenDxp\Model\DataObject\Concrete;
@@ -56,7 +56,7 @@ class Table extends DefaultAdapter
     public function getESMapping()
     {
         $mapping = [
-            'type' => 'keyword'
+            'type' => 'keyword',
         ];
 
         if ($this->isColumnConfigActivated()) {
@@ -75,9 +75,9 @@ class Table extends DefaultAdapter
                 [
                     'properties' => [
                         self::INDEX_MAPPING_PROPERTY_STANDARD => $mapping,
-                        self::INDEX_MAPPING_PROPERTY_NOT_INHERITED => $mapping
-                    ]
-                ]
+                        self::INDEX_MAPPING_PROPERTY_NOT_INHERITED => $mapping,
+                    ],
+                ],
             ];
 
             return $inheritanceMapping;
@@ -85,7 +85,7 @@ class Table extends DefaultAdapter
 
         return [
             $this->fieldDefinition->getName(),
-            $mapping
+            $mapping,
         ];
     }
 
@@ -207,9 +207,6 @@ class Table extends DefaultAdapter
         return new QueryStringQuery($term, ['fields' => [$fieldsPath]]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getFieldSelectionInformation()
     {
         $columnConfig = [];
@@ -228,13 +225,13 @@ class Table extends DefaultAdapter
                     'operators' => [
                         BoolQuery::MUST,
                         BoolQuery::SHOULD,
-                        BoolQuery::MUST_NOT
+                        BoolQuery::MUST_NOT,
                     ],
                     'classInheritanceEnabled' => $this->considerInheritance,
                     'columnConfigActivated' => $this->isColumnConfigActivated(),
-                    'columnConfig' => $columnConfig
+                    'columnConfig' => $columnConfig,
                 ]
-            )
+            ),
         ];
     }
 
