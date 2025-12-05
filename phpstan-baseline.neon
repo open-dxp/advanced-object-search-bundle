@@ -10,10 +10,10 @@ parameters:
 			message: "#^Instantiated class OpenDxp\\\\Bundle\\\\SimpleBackendSearchBundle\\\\OpenDxpSimpleBackendSearchBundle not found.$#"
 			reportUnmatched: false
 			count: 1
-			path: src/AdvancedObjectSearchBundle.php
+			path: src/OpenDxpAdvancedObjectSearchBundle.php
 
 		-
 			message: "#^Class OpenDxp\\\\Bundle\\\\SimpleBackendSearchBundle\\\\OpenDxpSimpleBackendSearchBundle not found.$#"
 			reportUnmatched: false
 			count: 1
-			path: src/AdvancedObjectSearchBundle.php
+			path: src/OpenDxpAdvancedObjectSearchBundle.php
