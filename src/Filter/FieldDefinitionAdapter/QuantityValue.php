@@ -25,7 +25,7 @@ use OpenDxp\Model\DataObject\AbstractObject;
 use OpenDxp\Model\DataObject\Concrete;
 
 /**
- * @property \Pimcore\Model\DataObject\ClassDefinition\Data\QuantityValue $fieldDefinition
+ * @property \OpenDxp\Model\DataObject\ClassDefinition\Data\QuantityValue $fieldDefinition
  */
 class QuantityValue extends Numeric implements FieldDefinitionAdapterInterface
 {

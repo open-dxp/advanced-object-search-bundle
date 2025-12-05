@@ -100,7 +100,7 @@ opendxp.bundle.advancedObjectSearch.searchConfig.ResultPanelExtensionBag = Class
             for (var i = 0; i < columns.length; i++) {
                 var column = columns[i];
 
-                //TODO remove childs, when drop pimcore X support
+                //TODO remove childs, when drop opendxp 1 support
                 if (column.isOperator && this._hasFieldRecursive(fieldname, column.attributes.childs ?? column.attributes.children)) {
                     return true
                 } else if (column.attribute == fieldname || column.key == fieldname) {
@@ -128,7 +128,7 @@ opendxp.bundle.advancedObjectSearch.searchConfig.ResultPanelExtensionBag = Class
                 }
 
                 if (column.isOperator) {
-                    //TODO remove childs, when drop pimcore X support
+                    //TODO remove childs, when drop opendxp 1 support
                     this._hasOperatorRecursive(config, column.attributes.childs ?? column.attributes.children);
                 }
             }

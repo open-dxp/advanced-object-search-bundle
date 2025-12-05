@@ -50,7 +50,7 @@ class Installer extends SettingsStoreAwareInstaller
     public function install(): void
     {
         /**
-         * The simple backend search can be deactivated from Pimcore 11 on. But it is necessary for the advanced object search,
+         * The simple backend search can be deactivated in OpenDxp. But it is necessary for the advanced object search,
          * so we have to make sure that it is activated & installed.
          */
         $simpleBackendSearchInstaller = \OpenDxp::getContainer()->get(\OpenDxp\Bundle\SimpleBackendSearchBundle\Installer::class);

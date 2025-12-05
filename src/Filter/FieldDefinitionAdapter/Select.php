@@ -24,7 +24,7 @@ use OpenDxp\Model\DataObject\AbstractObject;
 use OpenDxp\Model\DataObject\Concrete;
 
 /**
- * @property \Pimcore\Model\DataObject\ClassDefinition\Data\Select $fieldDefinition
+ * @property \OpenDxp\Model\DataObject\ClassDefinition\Data\Select $fieldDefinition
  */
 class Select extends DefaultAdapter implements FieldDefinitionAdapterInterface
 {

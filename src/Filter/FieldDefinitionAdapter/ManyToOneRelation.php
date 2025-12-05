@@ -27,7 +27,7 @@ use OpenDxp\Model\DataObject\Concrete;
 use OpenDxp\Normalizer\NormalizerInterface;
 
 /**
- * @property \Pimcore\Model\DataObject\ClassDefinition\Data\ManyToOneRelation $fieldDefinition
+ * @property \OpenDxp\Model\DataObject\ClassDefinition\Data\ManyToOneRelation $fieldDefinition
  */
 class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapterInterface
 {
