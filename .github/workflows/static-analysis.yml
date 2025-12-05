@@ -15,7 +15,6 @@ on:
 env:
     OPENDXP_PROJECT_ROOT: ${{ github.workspace }}
     PRIVATE_REPO: ${{ github.event.repository.private }}
-    COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
 
 jobs:
     setup-matrix:
