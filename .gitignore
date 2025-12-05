@@ -14,12 +14,6 @@ Thumbs.db
 /app/config/local/*
 !app/config/local/.gitkeep
 
-# pimcore legacy (remove this for your own development)
-!/legacy
-/legacy/*
-!legacy/.gitkeep
-!legacy/bundle
-
 /var/*
 !/var/.gitkeep
 !/var/classes/

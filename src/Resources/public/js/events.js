@@ -17,12 +17,12 @@
  */
 opendxp.events.onAdvancedObjectSearchResult = "opendxp.advancedObjectSearch.result.initialize";
 
-//TODO: delete once support for Pimcore 10.6 is dropped
+//TODO: delete once support for OpenDxp 1 is dropped
 
 if(typeof addEventListenerCompatibilityForPlugins === "function") {
     let eventMappings = [];
     eventMappings["onAdvancedObjectSearchResult"] = opendxp.events.onAdvancedObjectSearchResult;
     addEventListenerCompatibilityForPlugins(eventMappings);
-    console.warn("Deprecation: addEventListenerCompatibilityForPlugins will be not supported in OpenDxp 11.");
+    console.warn("Deprecation: addEventListenerCompatibilityForPlugins will be not supported in OpenDxp 2.");
 
 }
