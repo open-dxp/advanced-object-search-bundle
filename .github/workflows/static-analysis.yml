@@ -15,6 +15,7 @@ on:
 env:
     OPENDXP_PROJECT_ROOT: ${{ github.workspace }}
     PRIVATE_REPO: ${{ github.event.repository.private }}
+    COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
 
 jobs:
     setup-matrix:
@@ -89,4 +90,3 @@ jobs:
             EXPERIMENTAL: ${{ matrix.matrix.experimental }}
             OPENDXP_VERSION: ${{ matrix.matrix.opendxp_version }}
             COMPOSER_OPTIONS: ${{ matrix.matrix.composer_options }}
-            COMPOSER_AUTH: ${{ secrets.COMPOSER_AUTH }}
