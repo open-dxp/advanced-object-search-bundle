@@ -32,6 +32,7 @@ class OpenDxpAdvancedObjectSearchBundle extends AbstractOpenDxpBundle implements
     use PackageVersionTrait;
     use BundleAdminClassicTrait;
 
+    #[\Override]
     public function getContainerExtension(): ?ExtensionInterface
     {
         if (null === $this->extension) {

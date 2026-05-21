@@ -17,14 +17,8 @@ namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Messenger;
 
 class QueueMessage
 {
-    protected string $workerId;
-
-    protected array $entries;
-
-    public function __construct(string $workerId, array $entries)
+    public function __construct(protected string $workerId, protected array $entries)
     {
-        $this->workerId = $workerId;
-        $this->entries = $entries;
     }
 
     public function getWorkerId(): string

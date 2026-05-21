@@ -41,6 +41,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
     /**
      * @return array
      */
+    #[\Override]
     public function getESMapping()
     {
         if ($this->considerInheritance) {
@@ -103,6 +104,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
      *
      * @return BuilderInterface
      */
+    #[\Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         if (is_array($fieldFilter)) {
@@ -148,6 +150,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
      *
      * @return FieldSelectionInformation[]
      */
+    #[\Override]
     public function getFieldSelectionInformation()
     {
         $allowedTypes = [];
@@ -184,6 +187,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
      * @param Concrete $object
      * @param bool $ignoreInheritance
      */
+    #[\Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;

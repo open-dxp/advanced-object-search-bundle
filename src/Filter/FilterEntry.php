@@ -34,28 +34,6 @@ class FilterEntry
     protected $operator = BoolQuery::MUST;
 
     /**
-     * fieldname to filter
-     *
-     * @var string
-     */
-    protected $fieldname;
-
-    /**
-     * filter entry data
-     * can be instance of BuilderInterface for adapter specific stdClass - FieldDefinitionAdapters for details
-     *
-     * @var BuilderInterface | \stdClass | string
-     */
-    protected $filterEntryData;
-
-    /**
-     * defines if inheritance should be considered or not during filtering
-     *
-     * @var bool
-     */
-    protected $ignoreInheritance;
-
-    /**
      * FilterEntry constructor.
      *
      * @param string $fieldname
@@ -63,14 +41,21 @@ class FilterEntry
      * @param string $operator
      * @param bool $ignoreInheritance
      */
-    public function __construct($fieldname, $filterEntryData, $operator = BoolQuery::MUST, $ignoreInheritance = false)
+    public function __construct(/**
+     * fieldname to filter
+     */
+    protected $fieldname, /**
+     * filter entry data
+     * can be instance of BuilderInterface for adapter specific stdClass - FieldDefinitionAdapters for details
+     */
+    protected $filterEntryData, $operator = BoolQuery::MUST, /**
+     * defines if inheritance should be considered or not during filtering
+     */
+    protected $ignoreInheritance = false)
     {
         if ($operator) {
             $this->operator = $operator;
         }
-        $this->fieldname = $fieldname;
-        $this->filterEntryData = $filterEntryData;
-        $this->ignoreInheritance = $ignoreInheritance;
     }
 
     /**

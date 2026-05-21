@@ -47,6 +47,7 @@ class Installer extends SettingsStoreAwareInstaller
     /**
      * @throws Exception
      */
+    #[\Override]
     public function install(): void
     {
         /**
@@ -103,6 +104,7 @@ class Installer extends SettingsStoreAwareInstaller
     /**
      * @throws Exception
      */
+    #[\Override]
     public function uninstall(): void
     {
         /**
@@ -134,6 +136,7 @@ class Installer extends SettingsStoreAwareInstaller
         parent::uninstall();
     }
 
+    #[\Override]
     public function needsReloadAfterInstall(): bool
     {
         return true;

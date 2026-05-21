@@ -34,6 +34,7 @@ class Localizedfields extends DefaultAdapter implements FieldDefinitionAdapterIn
     /**
      * @return array
      */
+    #[\Override]
     public function getESMapping()
     {
         $children = $this->fieldDefinition->getFieldDefinitions();
@@ -67,6 +68,7 @@ class Localizedfields extends DefaultAdapter implements FieldDefinitionAdapterIn
      *
      * @return array
      */
+    #[\Override]
     public function getIndexData($object)
     {
         $localeBackup = $this->localeService->getLocale();
@@ -108,6 +110,7 @@ class Localizedfields extends DefaultAdapter implements FieldDefinitionAdapterIn
      *
      * @return BuilderInterface
      */
+    #[\Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         $languageQueries = [];
@@ -164,6 +167,7 @@ class Localizedfields extends DefaultAdapter implements FieldDefinitionAdapterIn
      *
      * @return FieldSelectionInformation[]
      */
+    #[\Override]
     public function getFieldSelectionInformation()
     {
         $fieldSelectionInformationEntries = [];

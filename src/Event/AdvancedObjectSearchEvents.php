@@ -20,10 +20,10 @@ final class AdvancedObjectSearchEvents
     /**
      * @Event("AdvancedObjectSearchBundle\Event\SearchEvent")
      */
-    public const SEARCH_FILTER = 'advanced_object_search.search_filter';
+    public const string SEARCH_FILTER = 'advanced_object_search.search_filter';
 
     /**
      * @Event("AdvancedObjectSearchBundle\Event\SearchEvent")
      */
-    public const LISTING_FILER = 'advanced_object_search.listing_filter';
+    public const string LISTING_FILER = 'advanced_object_search.listing_filter';
 }

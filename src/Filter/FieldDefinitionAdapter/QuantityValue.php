@@ -39,6 +39,7 @@ class QuantityValue extends Numeric implements FieldDefinitionAdapterInterface
     /**
      * @return array
      */
+    #[\Override]
     public function getESMapping()
     {
         if ($this->considerInheritance) {
@@ -100,6 +101,7 @@ class QuantityValue extends Numeric implements FieldDefinitionAdapterInterface
      *
      * @return BuilderInterface
      */
+    #[\Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         $boolQuery = new BoolQuery();
@@ -118,6 +120,7 @@ class QuantityValue extends Numeric implements FieldDefinitionAdapterInterface
      *
      * @return FieldSelectionInformation[]
      */
+    #[\Override]
     public function getFieldSelectionInformation()
     {
         return [new FieldSelectionInformation(
@@ -136,6 +139,7 @@ class QuantityValue extends Numeric implements FieldDefinitionAdapterInterface
      * @param Concrete $object
      * @param bool $ignoreInheritance
      */
+    #[\Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;

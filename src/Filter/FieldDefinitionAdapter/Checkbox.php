@@ -34,6 +34,7 @@ class Checkbox extends DefaultAdapter implements FieldDefinitionAdapterInterface
     /**
      * @return array
      */
+    #[\Override]
     public function getESMapping()
     {
         if ($this->considerInheritance) {
@@ -64,6 +65,7 @@ class Checkbox extends DefaultAdapter implements FieldDefinitionAdapterInterface
      * @param Concrete $object
      * @param bool $ignoreInheritance
      */
+    #[\Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;
@@ -86,6 +88,7 @@ class Checkbox extends DefaultAdapter implements FieldDefinitionAdapterInterface
      *
      * @return mixed
      */
+    #[\Override]
     public function getIndexData($object)
     {
         $value = $this->doGetIndexDataValue($object, false);
@@ -114,11 +117,13 @@ class Checkbox extends DefaultAdapter implements FieldDefinitionAdapterInterface
      *
      * @return BuilderInterface
      */
+    #[\Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         return new TermQuery($path . $this->fieldDefinition->getName() . $this->buildQueryFieldPostfix($ignoreInheritance), $fieldFilter);
     }
 
+    #[\Override]
     public function getFieldSelectionInformation()
     {
         return [new FieldSelectionInformation(

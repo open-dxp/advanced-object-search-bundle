@@ -109,7 +109,7 @@ class AdminController extends UserAwareController
             $limit = $request->request->getInt('limit', 20);
             $start = $request->request->getInt('start');
 
-            $listClass = '\\OpenDxp\\Model\\DataObject\\' . ucfirst($className) . '\\Listing';
+            $listClass = '\\OpenDxp\\Model\\DataObject\\' . ucfirst((string) $className) . '\\Listing';
 
             $data = json_decode($request->request->getString('filter'), true, flags: JSON_THROW_ON_ERROR);
             $results = $service->doFilter($data['classId'], $data['conditions']['filters'], $data['conditions']['fulltextSearchTerm'], $start, $limit);
@@ -173,7 +173,7 @@ class AdminController extends UserAwareController
         $ids = $service->extractIdsFromResult($results);
 
         $className = $class->getName();
-        $listClass = '\\OpenDxp\\Model\\DataObject\\' . ucfirst($className) . '\\Listing';
+        $listClass = '\\OpenDxp\\Model\\DataObject\\' . ucfirst((string) $className) . '\\Listing';
         $list = new $listClass();
         $list->setObjectTypes(['object', 'folder', 'variant']);
         $list->setCondition('id IN (' . implode(',', $ids) . ')');

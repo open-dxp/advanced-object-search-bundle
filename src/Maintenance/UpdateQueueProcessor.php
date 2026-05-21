@@ -21,16 +21,10 @@ use OpenDxp\Maintenance\TaskInterface;
 
 class UpdateQueueProcessor implements TaskInterface
 {
-    protected Service $service;
-
-    protected bool $messengerQueueActivated;
-
     protected QueueHandler $queueHandler;
 
-    public function __construct(Service $service, bool $messengerQueueActivated, QueueHandler $queueHandler)
+    public function __construct(protected Service $service, protected bool $messengerQueueActivated, QueueHandler $queueHandler)
     {
-        $this->service = $service;
-        $this->messengerQueueActivated = $messengerQueueActivated;
         $this->queueHandler = $queueHandler;
     }
 

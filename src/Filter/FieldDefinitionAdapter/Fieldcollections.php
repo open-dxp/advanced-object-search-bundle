@@ -42,6 +42,7 @@ class Fieldcollections extends DefaultAdapter implements FieldDefinitionAdapterI
     /**
      * @return array
      */
+    #[\Override]
     public function getESMapping()
     {
         $allowedTypes = $this->fieldDefinition->getAllowedTypes();
@@ -98,6 +99,7 @@ class Fieldcollections extends DefaultAdapter implements FieldDefinitionAdapterI
      *
      * @return BuilderInterface
      */
+    #[\Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         $filterEntryObject = $this->service->buildFilterEntryObject($fieldFilter['filterCondition']);
@@ -144,11 +146,12 @@ class Fieldcollections extends DefaultAdapter implements FieldDefinitionAdapterI
      *
      * @return array
      */
+    #[\Override]
     public function getIndexData($object)
     {
         $data = [];
 
-        $getter = 'get' . ucfirst($this->fieldDefinition->getName());
+        $getter = 'get' . ucfirst((string) $this->fieldDefinition->getName());
         $fieldCollectionItems = $object->$getter();
 
         if ($fieldCollectionItems) {
@@ -180,6 +183,7 @@ class Fieldcollections extends DefaultAdapter implements FieldDefinitionAdapterI
         return $data;
     }
 
+    #[\Override]
     public function getFieldSelectionInformation()
     {
         $allowedTypes = [];

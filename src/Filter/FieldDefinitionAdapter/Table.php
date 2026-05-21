@@ -53,6 +53,7 @@ class Table extends DefaultAdapter
     /**
      * @return array
      */
+    #[\Override]
     public function getESMapping()
     {
         $mapping = [
@@ -95,6 +96,7 @@ class Table extends DefaultAdapter
      *
      * @return string
      */
+    #[\Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;
@@ -130,6 +132,7 @@ class Table extends DefaultAdapter
      *
      * @return mixed
      */
+    #[\Override]
     public function getIndexData($object)
     {
         $value = $this->doGetIndexDataValue($object, false);
@@ -156,6 +159,7 @@ class Table extends DefaultAdapter
         }
     }
 
+    #[\Override]
     protected function buildQueryFieldPostfix($ignoreInheritance = false)
     {
         $postfix = '';
@@ -178,6 +182,7 @@ class Table extends DefaultAdapter
      *
      * @return BuilderInterface
      */
+    #[\Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         $term = $fieldFilter['term'];
@@ -207,6 +212,7 @@ class Table extends DefaultAdapter
         return new QueryStringQuery($term, ['fields' => [$fieldsPath]]);
     }
 
+    #[\Override]
     public function getFieldSelectionInformation()
     {
         $columnConfig = [];
