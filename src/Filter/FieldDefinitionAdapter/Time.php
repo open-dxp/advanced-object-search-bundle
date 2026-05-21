@@ -31,6 +31,7 @@ class Time extends Datetime implements FieldDefinitionAdapterInterface
      * @param Concrete $object
      * @param bool $ignoreInheritance
      */
+    #[\Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;

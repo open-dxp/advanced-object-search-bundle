@@ -35,6 +35,7 @@ class Listing extends Model\Listing\AbstractListing
      * Tests if the given key is an valid order key to sort the results
      *
      */
+    #[\Override]
     public function isValidOrderKey($key): bool
     {
         return true;

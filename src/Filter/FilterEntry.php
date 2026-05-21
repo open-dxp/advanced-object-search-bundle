@@ -20,57 +20,25 @@ use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
 
 class FilterEntry
 {
-    const EXISTS = 'exists';
+    public const string EXISTS = 'exists';
+    public const string NOT_EXISTS = 'not_exists';
+    public const string FIELDNAME_GROUP = '~~group~~';
 
-    const NOT_EXISTS = 'not_exists';
-
-    const FIELDNAME_GROUP = '~~group~~';
-
-    /**
-     * operator for combining filters, default = MUST
-     *
-     * @var string
-     */
     protected $operator = BoolQuery::MUST;
 
     /**
-     * fieldname to filter
-     *
-     * @var string
-     */
-    protected $fieldname;
-
-    /**
-     * filter entry data
-     * can be instance of BuilderInterface for adapter specific stdClass - FieldDefinitionAdapters for details
-     *
-     * @var BuilderInterface | \stdClass | string
-     */
-    protected $filterEntryData;
-
-    /**
-     * defines if inheritance should be considered or not during filtering
-     *
-     * @var bool
-     */
-    protected $ignoreInheritance;
-
-    /**
-     * FilterEntry constructor.
-     *
      * @param string $fieldname
      * @param BuilderInterface|string|\stdClass|array $filterEntryData
      * @param string $operator
      * @param bool $ignoreInheritance
      */
-    public function __construct($fieldname, $filterEntryData, $operator = BoolQuery::MUST, $ignoreInheritance = false)
-    {
-        if ($operator) {
-            $this->operator = $operator;
-        }
-        $this->fieldname = $fieldname;
-        $this->filterEntryData = $filterEntryData;
-        $this->ignoreInheritance = $ignoreInheritance;
+    public function __construct(
+        protected $fieldname,
+        protected $filterEntryData,
+        $operator = BoolQuery::MUST,
+        protected $ignoreInheritance = false
+    ) {
+        $this->operator = $operator ?: BoolQuery::MUST;
     }
 
     /**
@@ -85,11 +53,13 @@ class FilterEntry
     {
         if ($this->operator == self::EXISTS) {
             return BoolQuery::MUST;
-        } elseif ($this->operator == self::NOT_EXISTS) {
-            return BoolQuery::MUST_NOT;
-        } else {
-            return $this->operator;
         }
+
+        if ($this->operator == self::NOT_EXISTS) {
+            return BoolQuery::MUST_NOT;
+        }
+
+        return $this->operator;
     }
 
     /**

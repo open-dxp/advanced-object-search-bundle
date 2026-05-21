@@ -120,7 +120,7 @@ class DefaultAdapter implements FieldDefinitionAdapterInterface
     protected function loadRawDataFromContainer($container, $fieldName)
     {
         $data = null;
-        $getter = 'get' . ucfirst($fieldName);
+        $getter = 'get' . ucfirst((string) $fieldName);
         if (method_exists($container, $getter)) { // for DataObject\Concrete, DataObject\Fieldcollection\Data\AbstractData, DataObject\Objectbrick\Data\AbstractData
             $data = $container->$getter();
         } elseif ($container instanceof Localizedfield) {

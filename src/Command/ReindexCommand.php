@@ -24,11 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ReindexCommand extends ServiceAwareCommand
 {
-    protected ?array $indexConfiguration = null;
-
-    public function __construct(array $indexConfiguration)
+    public function __construct(protected ?array $indexConfiguration)
     {
-        $this->indexConfiguration = $indexConfiguration;
         parent::__construct();
     }
 
@@ -45,7 +42,7 @@ class ReindexCommand extends ServiceAwareCommand
     {
         $classes = [];
         if ($input->getOption('classes')) {
-            $classNames = explode(',', $input->getOption('classes'));
+            $classNames = explode(',', (string) $input->getOption('classes'));
             foreach ($classNames as $name) {
                 $classes[] = ClassDefinition::getByName($name);
             }
@@ -59,7 +56,7 @@ class ReindexCommand extends ServiceAwareCommand
         $elementsPerLoop = $this->indexConfiguration['elements_per_loop'];
 
         foreach ($classes as $class) {
-            $listClassName = '\\OpenDxp\\Model\\DataObject\\' . ucfirst($class->getName()) . '\\Listing';
+            $listClassName = '\\OpenDxp\\Model\\DataObject\\' . ucfirst((string) $class->getName()) . '\\Listing';
             $list = new $listClassName();
             $list->setObjectTypes([AbstractObject::OBJECT_TYPE_OBJECT, AbstractObject::OBJECT_TYPE_VARIANT]);
             $list->setUnpublished(true);

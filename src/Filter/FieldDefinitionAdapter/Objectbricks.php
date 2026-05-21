@@ -41,6 +41,7 @@ class Objectbricks extends DefaultAdapter implements FieldDefinitionAdapterInter
     /**
      * @return array
      */
+    #[\Override]
     public function getESMapping()
     {
         $allowedTypes = $this->fieldDefinition->getAllowedTypes();
@@ -88,6 +89,7 @@ class Objectbricks extends DefaultAdapter implements FieldDefinitionAdapterInter
      *
      * @return BuilderInterface
      */
+    #[\Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         $filterEntryObject = $this->service->buildFilterEntryObject($fieldFilter['filterCondition']);
@@ -134,11 +136,12 @@ class Objectbricks extends DefaultAdapter implements FieldDefinitionAdapterInter
      *
      * @return array
      */
+    #[\Override]
     public function getIndexData($object)
     {
         $data = [];
 
-        $getter = 'get' . ucfirst($this->fieldDefinition->getName());
+        $getter = 'get' . ucfirst((string) $this->fieldDefinition->getName());
         $objectBrickContainer = $object->$getter();
 
         if ($objectBrickContainer) {
@@ -159,6 +162,7 @@ class Objectbricks extends DefaultAdapter implements FieldDefinitionAdapterInter
         return $data;
     }
 
+    #[\Override]
     public function getFieldSelectionInformation()
     {
         $allowedTypes = [];

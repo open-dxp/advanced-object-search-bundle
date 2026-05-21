@@ -34,15 +34,15 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * @deprecated will be removed in version 7.0
  */
-final class LegacyServiceFactory
+final readonly class LegacyServiceFactory
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly TokenStorageUserResolver $userResolver,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly Translator $translator,
-        private readonly IndexConfigService $indexConfigService,
-        private readonly SearchClientInterface $client
+        private LoggerInterface $logger,
+        private TokenStorageUserResolver $userResolver,
+        private EventDispatcherInterface $eventDispatcher,
+        private Translator $translator,
+        private IndexConfigService $indexConfigService,
+        private SearchClientInterface $client
     ) {
 
     }

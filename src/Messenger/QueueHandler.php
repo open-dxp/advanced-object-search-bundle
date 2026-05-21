@@ -23,23 +23,8 @@ class QueueHandler
 {
     const IMPORTER_WORKER_COUNT_TMP_STORE_KEY = 'ADVANCED-OBJECT-SEARCH::worker-count';
 
-    protected Service $queueService;
-
-    protected MessageBusInterface $messageBus;
-
-    protected int $workerCountLifeTime;
-
-    protected int $workerItemCount;
-
-    protected int $workerCount;
-
-    public function __construct(Service $queueService, MessageBusInterface $messageBus, int $workerCountLifeTime, int $workerItemCount, int $workerCount)
+    public function __construct(protected Service $queueService, protected MessageBusInterface $messageBus, protected int $workerCountLifeTime, protected int $workerItemCount, protected int $workerCount)
     {
-        $this->queueService = $queueService;
-        $this->messageBus = $messageBus;
-        $this->workerCountLifeTime = $workerCountLifeTime;
-        $this->workerItemCount = $workerItemCount;
-        $this->workerCount = $workerCount;
     }
 
     public function __invoke(QueueMessage $message)

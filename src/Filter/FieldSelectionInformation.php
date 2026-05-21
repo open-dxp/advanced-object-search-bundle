@@ -17,40 +17,12 @@ namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter;
 
 class FieldSelectionInformation
 {
-    /**
-     * @var string
-     */
-    protected $fieldName;
-
-    /**
-     * @var string
-     */
-    protected $fieldLabel;
-
-    /**
-     * @var string
-     */
-    protected $fieldType;
-
-    /**
-     * @var array
-     */
-    protected $context;
-
-    /**
-     * FieldSelectionInformation constructor.
-     *
-     * @param string $fieldName
-     * @param string $fieldLabel
-     * @param string $fieldType
-     * @param array $context
-     */
-    public function __construct($fieldName, $fieldLabel, $fieldType, $context = [])
-    {
-        $this->fieldName = $fieldName;
-        $this->fieldLabel = $fieldLabel;
-        $this->fieldType = $fieldType;
-        $this->context = $context;
+    public function __construct(
+        protected $fieldName,
+        protected $fieldLabel,
+        protected $fieldType,
+        protected $context = []
+    ) {
     }
 
     /**

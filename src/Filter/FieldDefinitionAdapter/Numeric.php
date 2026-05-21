@@ -35,6 +35,7 @@ class Numeric extends DefaultAdapter implements FieldDefinitionAdapterInterface
     /**
      * @return array
      */
+    #[\Override]
     public function getESMapping()
     {
         if ($this->considerInheritance) {
@@ -74,6 +75,7 @@ class Numeric extends DefaultAdapter implements FieldDefinitionAdapterInterface
      *
      * @return BuilderInterface
      */
+    #[\Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         if (is_array($fieldFilter)) {
@@ -88,6 +90,7 @@ class Numeric extends DefaultAdapter implements FieldDefinitionAdapterInterface
      *
      * @return FieldSelectionInformation[]
      */
+    #[\Override]
     public function getFieldSelectionInformation()
     {
         return [new FieldSelectionInformation(
@@ -105,6 +108,7 @@ class Numeric extends DefaultAdapter implements FieldDefinitionAdapterInterface
      * @param Concrete $object
      * @param bool $ignoreInheritance
      */
+    #[\Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;

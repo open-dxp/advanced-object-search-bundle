@@ -33,6 +33,7 @@ class ManyToManyObjectRelation extends ManyToOneRelation implements FieldDefinit
      *
      * @return FieldSelectionInformation[]
      */
+    #[\Override]
     public function getFieldSelectionInformation()
     {
         $allowedTypes = [];
@@ -56,6 +57,7 @@ class ManyToManyObjectRelation extends ManyToOneRelation implements FieldDefinit
         )];
     }
 
+    #[\Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $value = parent::doGetIndexDataValue($object, $ignoreInheritance);

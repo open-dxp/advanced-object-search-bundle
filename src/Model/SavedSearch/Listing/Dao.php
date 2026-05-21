@@ -60,7 +60,7 @@ class Dao extends Model\Listing\Dao\AbstractDao
 
         try {
             $amount = (int) $this->db->fetchOne('SELECT COUNT(*) as amount FROM ' . $this->db->quoteIdentifier(SavedSearch\Dao::TABLE_NAME) . ' ' . $this->getCondition(), $this->model->getConditionVariables());
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         return $amount;

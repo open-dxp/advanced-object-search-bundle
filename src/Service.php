@@ -48,18 +48,18 @@ class Service
 
     protected array $coreFieldsConfig;
 
-    private string $indexNamePrefix;
+    private readonly string $indexNamePrefix;
 
     private ?SearchClientInterface $searchClient = null;
 
     public function __construct(
-        private LoggerInterface $logger,
-        private TokenStorageUserResolver $userResolver,
-        private ContainerInterface $filterLocator,
-        private EventDispatcherInterface $eventDispatcher,
-        private Translator $translator,
-        private IndexConfigService $indexConfigService,
-        private OpenSearchClient $openSearchClient
+        private readonly LoggerInterface $logger,
+        private readonly TokenStorageUserResolver $userResolver,
+        private readonly ContainerInterface $filterLocator,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly Translator $translator,
+        private readonly IndexConfigService $indexConfigService,
+        private readonly OpenSearchClient $openSearchClient
     ) {
         $this->user = $this->userResolver->getUser();
         $this->indexNamePrefix = $indexConfigService->getIndexNamePrefix();
@@ -183,7 +183,7 @@ class Service
     public function getCoreFieldDefinition($name, array $data)
     {
         $title = $this->translator->trans($data['title'], [], 'admin');
-        $values = isset($data['values']) ? $data['values'] : [];
+        $values = $data['values'] ?? [];
 
         /** @var ClassDefinition\Data $fieldDefinition */
         $fieldDefinition = new $data['fieldDefinition']();
@@ -226,11 +226,9 @@ class Service
         $fieldDefinitions = $objectClass->getFieldDefinitions();
 
         $mappingProperties = array_map(
-            function ($fieldProperties) {
-                return [
-                    'type' => $fieldProperties['type'],
-                ];
-            },
+            fn($fieldProperties) => [
+                'type' => $fieldProperties['type'],
+            ],
             $this->getCoreFieldsConfig()
         );
 

@@ -88,7 +88,7 @@ class SavedSearch extends Model\AbstractModel
             $tag->getDao()->getById($id);
 
             return $tag;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
