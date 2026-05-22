@@ -19,11 +19,6 @@ use OpenDxp\Bundle\AdvancedObjectSearchBundle\Enum\ClientType;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-/**
- * This is the class that validates and merges configuration from your app/config files.
- *
- * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/configuration.html}
- */
 class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder(): TreeBuilder
@@ -31,7 +26,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('opendxp_advanced_object_search');
         $rootNode = $treeBuilder->getRootNode();
 
-        // @phpstan-ignore-next-line
         $rootNode
             ->children()
                 ->scalarNode('index_name_prefix')

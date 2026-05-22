@@ -1,0 +1,75 @@
+parameters:
+    secret: ThisTokenIsNotSoSecretChangeItImmediately
+    opendxp_test.db.dsn: '%env(OPENDXP_TEST_DB_DSN)%'
+    env(OPENDXP_TEST_DB_DSN): ~
+    opendxp.encryption.secret: 'def00000fc1e34a17a03e2ef85329325b0736a5941633f8062f6b0a1a20f416751af119256bea0abf83ac33ef656b3fff087e1ce71fa6b8810d7f854fe2781f3fe4507f6'
+
+framework:
+
+    session:
+        storage_factory_id: session.storage.factory.mock_file
+
+    profiler:
+        enabled: true
+        collect: false
+
+    # don't send real emails in functional tests
+    mailer:
+        transports:
+            main: 'null://null'
+            opendxp_newsletter: 'null://null'
+
+doctrine:
+    orm:
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+    dbal:
+        connections:
+            default:
+                server_version: '8.0'
+                url: '%opendxp_test.db.dsn%'
+                options:
+                    !php/const PDO::ATTR_PERSISTENT: true
+                mapping_types:
+                    enum: string
+                    bit: boolean
+
+
+opendxp:
+    general:
+        timezone: Europe/Berlin
+        domain: 'localhost'
+        redirect_to_maindomain: false
+        disable_usage_statistics: true
+        debug_admin_translations: false
+        default_language: en
+        valid_languages: 'en,de,fr,it,de_DE,en_US,de_CH'
+        fallback_languages:
+            en: ''
+            de: ''
+            fr: ''
+            it: ''
+            de_DE: 'de'
+            de_CH: 'de'
+            en_US: 'en'
+    documents:
+        allow_trailing_slash: 'no'
+        generate_preview: false
+        versions:
+            days: null
+            steps: 10
+        error_pages:
+            default: /error
+    objects:
+        versions:
+            days: null
+            steps: 10
+    assets:
+        versions:
+            days: null
+            steps: 10
+    email:
+        debug:
+            email_addresses: opensource@dachcom.ch

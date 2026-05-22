@@ -1,11 +1,15 @@
 #!/bin/bash
 
-set -eu -o xtrace
+set -eu
 
-#cp -rv .github/ci/files/var .
-cp .github/ci/files/.env .
+mkdir -p var/config
+mkdir -p bin
 
-# Setup composer auth
-if [ -n "$COMPOSER_AUTH" ]; then
-composer config repositories.opendxp '{"type": "composer", "url": "https://open-dxp.repo.repman.io"}' --file composer.json
-fi
+cp -r .github/ci/files/config/. config
+cp -r .github/ci/files/templates/. templates
+cp -r .github/ci/files/bin/console bin/console
+cp -r .github/ci/files/kernel/. kernel
+cp -r .github/ci/files/public/. public
+cp .github/ci/files/.env ./
+
+chmod 755 bin/console
