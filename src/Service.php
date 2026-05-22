@@ -9,12 +9,14 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle;
 
+use DateTime;
+use DateTimeInterface;
 use Doctrine\DBAL\Exception as DoctrineDbalException;
 use Exception;
 use ONGR\ElasticsearchDSL\BuilderInterface;
@@ -141,13 +143,13 @@ class Service
      */
     public function getCoreFieldsIndexData(Concrete $object)
     {
-        $date = new \DateTime();
+        $date = new DateTime();
 
         return [
             'id' => $object->getId(),
             'index' => $object->getIndex(),
-            'creationDate' => $date->setTimestamp($object->getCreationDate())->format(\DateTimeInterface::ATOM),
-            'modificationDate' => $date->setTimestamp($object->getModificationDate())->format(\DateTimeInterface::ATOM),
+            'creationDate' => $date->setTimestamp($object->getCreationDate())->format(DateTimeInterface::ATOM),
+            'modificationDate' => $date->setTimestamp($object->getModificationDate())->format(DateTimeInterface::ATOM),
             'published' => $object->getPublished(),
             'type' => $object->getType(),
             'className' => $object->getClassName(),
@@ -226,7 +228,7 @@ class Service
         $fieldDefinitions = $objectClass->getFieldDefinitions();
 
         $mappingProperties = array_map(
-            fn($fieldProperties) => [
+            fn ($fieldProperties) => [
                 'type' => $fieldProperties['type'],
             ],
             $this->getCoreFieldsConfig()
@@ -323,7 +325,6 @@ class Service
 
     /**
      * creates new search index and deletes old one if exists
-     *
      */
     protected function createIndex(ClassDefinition $classDefinition)
     {
@@ -524,8 +525,6 @@ class Service
     }
 
     /**
-     *
-     *
      * @throws DoctrineDbalException
      */
     public function initUpdateQueue(string $workerId, int $limit = 200): array
@@ -540,8 +539,6 @@ class Service
     }
 
     /**
-     *
-     *
      * @throws DoctrineDbalException
      */
     public function doProcessUpdateQueue(string $workerId, array $entries): int

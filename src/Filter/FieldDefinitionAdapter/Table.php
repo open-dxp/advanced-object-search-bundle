@@ -9,7 +9,7 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
@@ -24,6 +24,7 @@ use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
 use OpenDxp\Model\DataObject\AbstractObject;
 use OpenDxp\Model\DataObject\ClassDefinition\Data;
 use OpenDxp\Model\DataObject\Concrete;
+use Override;
 
 /**
  * @property Data\Table $fieldDefinition
@@ -31,7 +32,6 @@ use OpenDxp\Model\DataObject\Concrete;
 class Table extends DefaultAdapter
 {
     /**
-     *
      * The value for ignore_above is the character count, but Lucene counts bytes. If you use UTF-8 text with
      * many non-ASCII characters, you may want to set the limit to 32766 / 4 = 8191 since UTF-8 characters may
      * occupy at most 4 bytes.
@@ -53,7 +53,7 @@ class Table extends DefaultAdapter
     /**
      * @return array
      */
-    #[\Override]
+    #[Override]
     public function getESMapping()
     {
         $mapping = [
@@ -96,7 +96,7 @@ class Table extends DefaultAdapter
      *
      * @return string
      */
-    #[\Override]
+    #[Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;
@@ -132,7 +132,7 @@ class Table extends DefaultAdapter
      *
      * @return mixed
      */
-    #[\Override]
+    #[Override]
     public function getIndexData($object)
     {
         $value = $this->doGetIndexDataValue($object, false);
@@ -159,7 +159,7 @@ class Table extends DefaultAdapter
         }
     }
 
-    #[\Override]
+    #[Override]
     protected function buildQueryFieldPostfix($ignoreInheritance = false)
     {
         $postfix = '';
@@ -182,7 +182,7 @@ class Table extends DefaultAdapter
      *
      * @return BuilderInterface
      */
-    #[\Override]
+    #[Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         $term = $fieldFilter['term'];
@@ -212,7 +212,7 @@ class Table extends DefaultAdapter
         return new QueryStringQuery($term, ['fields' => [$fieldsPath]]);
     }
 
-    #[\Override]
+    #[Override]
     public function getFieldSelectionInformation()
     {
         $columnConfig = [];

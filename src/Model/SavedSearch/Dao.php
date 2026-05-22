@@ -9,12 +9,13 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Model\SavedSearch;
 
+use Exception;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Model\SavedSearch;
 use OpenDxp\Db\Helper;
 use OpenDxp\Model;
@@ -29,13 +30,13 @@ class Dao extends Model\Dao\AbstractDao
     /**
      * @param int $id
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function getById($id)
     {
         $data = $this->db->fetchAssociative('SELECT * FROM ' . $this->db->quoteIdentifier(self::TABLE_NAME) . ' WHERE id = ?', [$id]);
         if (!$data['id']) {
-            throw new \Exception('SavedSearch item with id ' . $id . ' not found');
+            throw new Exception('SavedSearch item with id ' . $id . ' not found');
         }
         $this->assignVariablesToModel($data);
     }
@@ -76,7 +77,7 @@ class Dao extends Model\Dao\AbstractDao
             $this->db->commit();
 
             return true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->rollBack();
 
             throw $e;
@@ -96,7 +97,7 @@ class Dao extends Model\Dao\AbstractDao
             $this->db->delete(self::TABLE_NAME, ['id' => $this->model->getId()]);
 
             $this->db->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->db->rollBack();
 
             throw $e;

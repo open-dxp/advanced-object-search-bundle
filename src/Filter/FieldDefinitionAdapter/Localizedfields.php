@@ -9,7 +9,7 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
@@ -23,6 +23,7 @@ use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FilterEntry;
 use OpenDxp\Model\DataObject\ClassDefinition\Data;
 use OpenDxp\Model\DataObject\Concrete;
 use OpenDxp\Tool;
+use Override;
 
 class Localizedfields extends DefaultAdapter implements FieldDefinitionAdapterInterface
 {
@@ -34,7 +35,7 @@ class Localizedfields extends DefaultAdapter implements FieldDefinitionAdapterIn
     /**
      * @return array
      */
-    #[\Override]
+    #[Override]
     public function getESMapping()
     {
         $children = $this->fieldDefinition->getFieldDefinitions();
@@ -68,7 +69,7 @@ class Localizedfields extends DefaultAdapter implements FieldDefinitionAdapterIn
      *
      * @return array
      */
-    #[\Override]
+    #[Override]
     public function getIndexData($object)
     {
         $localeBackup = $this->localeService->getLocale();
@@ -110,7 +111,7 @@ class Localizedfields extends DefaultAdapter implements FieldDefinitionAdapterIn
      *
      * @return BuilderInterface
      */
-    #[\Override]
+    #[Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         $languageQueries = [];
@@ -167,7 +168,7 @@ class Localizedfields extends DefaultAdapter implements FieldDefinitionAdapterIn
      *
      * @return FieldSelectionInformation[]
      */
-    #[\Override]
+    #[Override]
     public function getFieldSelectionInformation()
     {
         $fieldSelectionInformationEntries = [];

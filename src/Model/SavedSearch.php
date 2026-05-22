@@ -9,12 +9,14 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Model;
 
+use Exception;
+use OpenDxp;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\SavedSearchEvent;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\SavedSearchEvents;
 use OpenDxp\Model;
@@ -88,27 +90,27 @@ class SavedSearch extends Model\AbstractModel
             $tag->getDao()->getById($id);
 
             return $tag;
-        } catch (\Exception) {
+        } catch (Exception) {
             return null;
         }
     }
 
     public function save()
     {
-        \OpenDxp::getEventDispatcher()->dispatch(new SavedSearchEvent($this), SavedSearchEvents::PRE_SAVE);
+        OpenDxp::getEventDispatcher()->dispatch(new SavedSearchEvent($this), SavedSearchEvents::PRE_SAVE);
 
         $this->getDao()->save();
 
-        \OpenDxp::getEventDispatcher()->dispatch(new SavedSearchEvent($this), SavedSearchEvents::POST_SAVE);
+        OpenDxp::getEventDispatcher()->dispatch(new SavedSearchEvent($this), SavedSearchEvents::POST_SAVE);
     }
 
     public function delete()
     {
-        \OpenDxp::getEventDispatcher()->dispatch(new SavedSearchEvent($this), SavedSearchEvents::PRE_DELETE);
+        OpenDxp::getEventDispatcher()->dispatch(new SavedSearchEvent($this), SavedSearchEvents::PRE_DELETE);
 
         $this->getDao()->delete();
 
-        \OpenDxp::getEventDispatcher()->dispatch(new SavedSearchEvent($this), SavedSearchEvents::POST_DELETE);
+        OpenDxp::getEventDispatcher()->dispatch(new SavedSearchEvent($this), SavedSearchEvents::POST_DELETE);
     }
 
     /**
@@ -311,7 +313,6 @@ class SavedSearch extends Model\AbstractModel
     }
 
     /**
-     *
      * @return bool
      */
     public function isInShortCutsForUser(Model\User $user)

@@ -9,17 +9,19 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter;
 
+use DateTimeInterface;
 use ONGR\ElasticsearchDSL\BuilderInterface;
 use ONGR\ElasticsearchDSL\Query\TermLevel\RangeQuery;
 use ONGR\ElasticsearchDSL\Query\TermLevel\TermQuery;
 use OpenDxp\Model\DataObject\AbstractObject;
 use OpenDxp\Model\DataObject\Concrete;
+use Override;
 
 class Datetime extends Numeric implements FieldDefinitionAdapterInterface
 {
@@ -33,7 +35,7 @@ class Datetime extends Numeric implements FieldDefinitionAdapterInterface
     /**
      * @return array
      */
-    #[\Override]
+    #[Override]
     public function getESMapping()
     {
         if ($this->considerInheritance) {
@@ -73,19 +75,19 @@ class Datetime extends Numeric implements FieldDefinitionAdapterInterface
      *
      * @return BuilderInterface
      */
-    #[\Override]
+    #[Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         if (is_array($fieldFilter)) {
             foreach ($fieldFilter as &$value) {
                 $datetime = new \DateTime($value);
-                $value = $datetime->format(\DateTimeInterface::ATOM);
+                $value = $datetime->format(DateTimeInterface::ATOM);
             }
 
             return new RangeQuery($path . $this->fieldDefinition->getName() . $this->buildQueryFieldPostfix($ignoreInheritance), $fieldFilter);
         } else {
             $datetime = new \DateTime($fieldFilter);
-            $datetime = $datetime->format(\DateTimeInterface::ATOM);
+            $datetime = $datetime->format(DateTimeInterface::ATOM);
 
             return new TermQuery($path . $this->fieldDefinition->getName() . $this->buildQueryFieldPostfix($ignoreInheritance), $datetime);
         }
@@ -95,7 +97,7 @@ class Datetime extends Numeric implements FieldDefinitionAdapterInterface
      * @param Concrete $object
      * @param bool $ignoreInheritance
      */
-    #[\Override]
+    #[Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;
@@ -109,7 +111,7 @@ class Datetime extends Numeric implements FieldDefinitionAdapterInterface
         $getter = 'get' . $this->fieldDefinition->getName();
         $valueObject = $object->$getter();
         if ($valueObject) {
-            $value = $valueObject->format(\DateTimeInterface::ATOM);
+            $value = $valueObject->format(DateTimeInterface::ATOM);
         }
 
         if ($ignoreInheritance) {

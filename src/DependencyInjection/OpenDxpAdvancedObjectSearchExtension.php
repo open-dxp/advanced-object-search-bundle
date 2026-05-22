@@ -9,7 +9,7 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
@@ -18,6 +18,7 @@ namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\DependencyInjection;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Enum\ClientType;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Maintenance\UpdateQueueProcessor;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Messenger\QueueHandler;
+use Override;
 use RuntimeException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -28,7 +29,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 class OpenDxpAdvancedObjectSearchExtension extends ConfigurableExtension implements PrependExtensionInterface
 {
-    #[\Override]
+    #[Override]
     public function getAlias(): string
     {
         return 'opendxp_advanced_object_search';

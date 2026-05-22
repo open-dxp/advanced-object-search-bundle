@@ -9,12 +9,13 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter;
 
+use Exception;
 use ONGR\ElasticsearchDSL\BuilderInterface;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
 use ONGR\ElasticsearchDSL\Query\Joining\NestedQuery;
@@ -25,6 +26,7 @@ use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FilterEntry;
 use OpenDxp\Model\DataObject\AbstractObject;
 use OpenDxp\Model\DataObject\Concrete;
 use OpenDxp\Normalizer\NormalizerInterface;
+use Override;
 
 /**
  * @property \OpenDxp\Model\DataObject\ClassDefinition\Data\ManyToOneRelation $fieldDefinition
@@ -41,7 +43,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
     /**
      * @return array
      */
-    #[\Override]
+    #[Override]
     public function getESMapping()
     {
         if ($this->considerInheritance) {
@@ -104,7 +106,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
      *
      * @return BuilderInterface
      */
-    #[\Override]
+    #[Override]
     public function getQueryPart($fieldFilter, $ignoreInheritance = false, $path = '')
     {
         if (is_array($fieldFilter)) {
@@ -123,7 +125,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
                 $results = $this->service->doFilter($fieldFilter['classId'], $fieldFilter['filters'], $fieldFilter['fulltextSearchTerm']);
                 $idArray = $this->service->extractIdsFromResult($results);
             } else {
-                throw new \Exception('invalid filter entry definition ' . print_r($fieldFilter, true));
+                throw new Exception('invalid filter entry definition ' . print_r($fieldFilter, true));
             }
 
             if ($idArray) {
@@ -141,7 +143,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
 
             return $boolQuery;
         } else {
-            throw new \Exception('invalid filter entry for relations filter: ' . print_r($fieldFilter, true));
+            throw new Exception('invalid filter entry for relations filter: ' . print_r($fieldFilter, true));
         }
     }
 
@@ -150,7 +152,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
      *
      * @return FieldSelectionInformation[]
      */
-    #[\Override]
+    #[Override]
     public function getFieldSelectionInformation()
     {
         $allowedTypes = [];
@@ -187,7 +189,7 @@ class ManyToOneRelation extends DefaultAdapter implements FieldDefinitionAdapter
      * @param Concrete $object
      * @param bool $ignoreInheritance
      */
-    #[\Override]
+    #[Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;

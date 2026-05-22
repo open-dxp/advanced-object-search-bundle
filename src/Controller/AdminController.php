@@ -9,12 +9,13 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Controller;
 
+use Exception;
 use OpenDxp\Bundle\AdminBundle\Helper\QueryParams;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\AdvancedObjectSearchEvents;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Event\FilterListingEvent;
@@ -32,6 +33,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBagInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use UnexpectedValueException;
 
 #[Route('/admin')]
 class AdminController extends UserAwareController
@@ -70,7 +72,7 @@ class AdminController extends UserAwareController
                 break;
 
             default:
-                throw new \Exception("Invalid type '$type''");
+                throw new Exception("Invalid type '$type''");
 
         }
 
@@ -227,7 +229,7 @@ class AdminController extends UserAwareController
 
         try {
             $id = $request->request->getInt('id');
-        } catch (\UnexpectedValueException) {
+        } catch (UnexpectedValueException) {
             $id = null;
         }
 

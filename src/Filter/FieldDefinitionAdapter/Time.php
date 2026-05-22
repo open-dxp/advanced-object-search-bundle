@@ -9,14 +9,16 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
 namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapter;
 
+use DateTimeInterface;
 use OpenDxp\Model\DataObject\AbstractObject;
 use OpenDxp\Model\DataObject\Concrete;
+use Override;
 
 class Time extends Datetime implements FieldDefinitionAdapterInterface
 {
@@ -31,7 +33,7 @@ class Time extends Datetime implements FieldDefinitionAdapterInterface
      * @param Concrete $object
      * @param bool $ignoreInheritance
      */
-    #[\Override]
+    #[Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $inheritanceBackup = null;
@@ -46,7 +48,7 @@ class Time extends Datetime implements FieldDefinitionAdapterInterface
         $valueObject = $object->$getter();
         if ($valueObject) {
             $valueObject = new \DateTime('0000-01-01T' . $valueObject);
-            $value = $valueObject->format(\DateTimeInterface::ATOM);
+            $value = $valueObject->format(DateTimeInterface::ATOM);
         }
 
         if ($ignoreInheritance) {

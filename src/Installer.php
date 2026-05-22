@@ -9,7 +9,7 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
@@ -17,10 +17,12 @@ namespace OpenDxp\Bundle\AdvancedObjectSearchBundle;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use OpenDxp;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Model\SavedSearch;
 use OpenDxp\Db;
 use OpenDxp\Extension\Bundle\Installer\SettingsStoreAwareInstaller;
 use OpenDxp\Model\User\Permission\Definition;
+use Override;
 
 class Installer extends SettingsStoreAwareInstaller
 {
@@ -47,14 +49,14 @@ class Installer extends SettingsStoreAwareInstaller
     /**
      * @throws Exception
      */
-    #[\Override]
+    #[Override]
     public function install(): void
     {
         /**
          * The simple backend search can be deactivated in OpenDxp. But it is necessary for the advanced object search,
          * so we have to make sure that it is activated & installed.
          */
-        $simpleBackendSearchInstaller = \OpenDxp::getContainer()->get(\OpenDxp\Bundle\SimpleBackendSearchBundle\Installer::class);
+        $simpleBackendSearchInstaller = OpenDxp::getContainer()->get(\OpenDxp\Bundle\SimpleBackendSearchBundle\Installer::class);
         if (!$simpleBackendSearchInstaller->isInstalled()) {
             $simpleBackendSearchInstaller->install();
         }
@@ -104,7 +106,7 @@ class Installer extends SettingsStoreAwareInstaller
     /**
      * @throws Exception
      */
-    #[\Override]
+    #[Override]
     public function uninstall(): void
     {
         /**
@@ -136,7 +138,7 @@ class Installer extends SettingsStoreAwareInstaller
         parent::uninstall();
     }
 
-    #[\Override]
+    #[Override]
     public function needsReloadAfterInstall(): bool
     {
         return true;

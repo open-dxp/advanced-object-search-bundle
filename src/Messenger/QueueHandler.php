@@ -9,7 +9,7 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
@@ -23,8 +23,13 @@ class QueueHandler
 {
     const IMPORTER_WORKER_COUNT_TMP_STORE_KEY = 'ADVANCED-OBJECT-SEARCH::worker-count';
 
-    public function __construct(protected Service $queueService, protected MessageBusInterface $messageBus, protected int $workerCountLifeTime, protected int $workerItemCount, protected int $workerCount)
-    {
+    public function __construct(
+        protected Service $queueService,
+        protected MessageBusInterface $messageBus,
+        protected int $workerCountLifeTime,
+        protected int $workerItemCount,
+        protected int $workerCount
+    ) {
     }
 
     public function __invoke(QueueMessage $message)

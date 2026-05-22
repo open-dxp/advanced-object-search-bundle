@@ -9,7 +9,7 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
@@ -17,18 +17,21 @@ namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter;
 
 use ONGR\ElasticsearchDSL\BuilderInterface;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
+use stdClass;
 
 class FilterEntry
 {
     public const string EXISTS = 'exists';
+
     public const string NOT_EXISTS = 'not_exists';
+
     public const string FIELDNAME_GROUP = '~~group~~';
 
     protected $operator = BoolQuery::MUST;
 
     /**
      * @param string $fieldname
-     * @param BuilderInterface|string|\stdClass|array $filterEntryData
+     * @param BuilderInterface|string|stdClass|array $filterEntryData
      * @param string $operator
      * @param bool $ignoreInheritance
      */
@@ -87,7 +90,7 @@ class FilterEntry
     }
 
     /**
-     * @return \stdClass | BuilderInterface | string | array
+     * @return stdClass|BuilderInterface|string|array
      */
     public function getFilterEntryData()
     {
@@ -95,7 +98,7 @@ class FilterEntry
     }
 
     /**
-     * @param \stdClass | BuilderInterface | string | array $filterEntryData
+     * @param stdClass|BuilderInterface|string|array $filterEntryData
      */
     public function setFilterEntryData($filterEntryData)
     {

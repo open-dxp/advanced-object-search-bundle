@@ -9,7 +9,7 @@
  * LICENSE.md which is distributed with this source code.
  *
  * @copyright  Copyright (c) Pimcore GmbH (https://pimcore.com)
- * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.ch)
+ * @copyright  Modification Copyright (c) OpenDXP (https://www.opendxp.io)
  * @license    https://www.gnu.org/licenses/gpl-3.0.html  GNU General Public License version 3 (GPLv3)
  */
 
@@ -18,6 +18,7 @@ namespace OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldDefinitionAdapte
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FieldSelectionInformation;
 use OpenDxp\Bundle\AdvancedObjectSearchBundle\Filter\FilterEntry;
+use Override;
 
 class ManyToManyObjectRelation extends ManyToOneRelation implements FieldDefinitionAdapterInterface
 {
@@ -33,7 +34,7 @@ class ManyToManyObjectRelation extends ManyToOneRelation implements FieldDefinit
      *
      * @return FieldSelectionInformation[]
      */
-    #[\Override]
+    #[Override]
     public function getFieldSelectionInformation()
     {
         $allowedTypes = [];
@@ -57,7 +58,7 @@ class ManyToManyObjectRelation extends ManyToOneRelation implements FieldDefinit
         )];
     }
 
-    #[\Override]
+    #[Override]
     protected function doGetIndexDataValue($object, $ignoreInheritance = false)
     {
         $value = parent::doGetIndexDataValue($object, $ignoreInheritance);
