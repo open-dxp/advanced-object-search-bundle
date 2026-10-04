@@ -143,9 +143,4 @@ class Installer extends SettingsStoreAwareInstaller
     {
         return true;
     }
-
-    public function getLastMigrationVersionClassName(): ?string
-    {
-        return null;
-    }
 }
