@@ -100,6 +100,8 @@ class Installer extends SettingsStoreAwareInstaller
 
         $this->installPermissions();
 
+        $this->markMigrationsAsExecuted();
+
         parent::install();
     }
 
