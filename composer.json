@@ -5,6 +5,7 @@
     "config": {
         "sort-packages": true,
         "allow-plugins": {
+            "pestphp/pest-plugin": true,
             "symfony/runtime": true
         }
     },
@@ -13,7 +14,7 @@
         "handcraftedinthealps/elasticsearch-dsl": "^8.0",
         "open-dxp/opensearch-client-bundle": "^1.0",
         "open-dxp/elasticsearch-client-bundle": "^1.0",
-        "open-dxp/opendxp": "^1.1",
+        "open-dxp/opendxp": "^1.5",
         "symfony/config": "^7.4",
         "symfony/console": "^7.4",
         "symfony/dependency-injection": "^7.4",
@@ -24,6 +25,7 @@
         "symfony/routing": "^7.4"
     },
     "require-dev": {
+        "open-dxp/test-foundation": "^1.0",
         "phpstan/phpstan": "^2.0",
         "phpstan/phpstan-symfony": "^2.0.15",
         "symfony/dotenv": "^7.3",
@@ -35,9 +37,9 @@
         }
     },
     "autoload-dev": {
-        "files": [
-            "kernel/Kernel.php"
-        ]
+        "psr-4": {
+            "OpenDxp\\Bundle\\AdvancedObjectSearchBundle\\Tests\\": "tests/"
+        }
     },
     "extra": {
         "opendxp": {

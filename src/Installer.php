@@ -100,6 +100,8 @@ class Installer extends SettingsStoreAwareInstaller
 
         $this->installPermissions();
 
+        $this->markMigrationsAsExecuted();
+
         parent::install();
     }
 
@@ -142,10 +144,5 @@ class Installer extends SettingsStoreAwareInstaller
     public function needsReloadAfterInstall(): bool
     {
         return true;
-    }
-
-    public function getLastMigrationVersionClassName(): ?string
-    {
-        return null;
     }
 }

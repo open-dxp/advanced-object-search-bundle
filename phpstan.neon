@@ -7,10 +7,8 @@ parameters:
     treatPhpDocTypesAsCertain: false
     paths:
         - src
-    bootstrapFiles:
-        - phpstan-bootstrap.php
     excludePaths:
         - src/Migrations/*
     symfony:
-        containerXmlPath: %currentWorkingDirectory%/var/cache/test/App_KernelTestDebugContainer.xml
+        containerXmlPath: %currentWorkingDirectory%/var/cache/test/TestContainerDebug.xml
         constantHassers: false

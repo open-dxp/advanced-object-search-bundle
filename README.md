@@ -16,6 +16,12 @@ OpenDXP backend powered by search index technology (OpenSearch or Elasticsearch)
 
 ***
 
+## Installation
+- Execute: `$ bin/console opendxp:bundle:install OpenDxpAdvancedObjectSearchBundle`
+
+## Upgrading
+- Execute: `$ bin/console doctrine:migrations:migrate --prefix 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Migrations'`
+
 ## Integration into OpenDXP
 
 ### Installation and Configuration
