@@ -306,8 +306,7 @@ opendxp.bundle.advancedObjectSearch.searchConfig.resultPanel = Class.create(open
             bodyCls: "opendxp_editable_grid",
             trackMouseOver: true,
             viewConfig: {
-                forceFit: false,
-                xtype: 'patchedgridview'
+                forceFit: false
             },
             sortableColumns: false,
             selModel: gridHelper.getSelectionColumn(),
