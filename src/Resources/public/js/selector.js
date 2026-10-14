@@ -160,8 +160,7 @@ opendxp.bundle.advancedObjectSearch.selector = Class.create({
                 columnLines: true,
                 stripeRows: true,
                 viewConfig: {
-                    forceFit: true,
-                    xtype: 'patchedgridview'
+                    forceFit: true
                 },
                 plugins: ['gridfilters'],
                 // selModel: Ext.create('Ext.selection.RowModel', {}),
