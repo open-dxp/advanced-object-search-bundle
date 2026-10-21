@@ -21,6 +21,8 @@ OpenDXP backend powered by search index technology (OpenSearch or Elasticsearch)
 
 ## Upgrading
 - Execute: `$ bin/console doctrine:migrations:migrate --prefix 'OpenDxp\Bundle\AdvancedObjectSearchBundle\Migrations'`
+- Read the [changelog](CHANGELOG.md) before you update.
+- Coming from an earlier package? Read [Migrating to OpenDXP](doc/03_Migrating_to_OpenDXP.md).
 
 ## Integration into OpenDXP
 
