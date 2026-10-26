@@ -375,7 +375,6 @@ class Service
     /**
      * returns index data array for given object
      *
-     *
      * @return array
      *
      * @throws Exception
@@ -455,7 +454,6 @@ class Service
     /**
      * Updates object queue - either inserts entry (if not exists) or updates in_queue flag to false
      *
-     *
      * @throws DoctrineDbalException
      */
     protected function updateUpdateQueueForDataObject(Concrete $object)
@@ -487,7 +485,6 @@ class Service
 
     /**
      * fills update queue based on path of given object -> for all sub objects
-     *
      *
      * @throws DoctrineDbalException
      */
@@ -616,7 +613,6 @@ class Service
     /**
      * populates bool query from given filters. for details to filters see comment on getFilter() method
      *
-     *
      * @return BoolQuery
      *
      * @throws Exception
@@ -715,12 +711,16 @@ class Service
         $ids = [];
         do {
             $results = $this->getClient()->search($params);
-            $total = $results['hits']['total'];
-            $searchAfter = end($results['hits']['hits'])['sort'];
-            $search->setSearchAfter($searchAfter);
+            $hits = $results['hits']['hits'];
+
+            if ($hits === []) {
+                break;
+            }
+
+            $search->setSearchAfter(end($hits)['sort']);
             $params['body'] = $search->toArray();
             $ids = array_unique(array_merge($this->extractIdsFromResult($results), $ids));
-        } while ($total !== count($ids));
+        } while ($results['hits']['total'] !== count($ids));
 
         return $ids;
     }
@@ -787,7 +787,6 @@ class Service
 
     /**
      * adds filter to exclude forbidden paths
-     *
      *
      * @throws Exception
      */

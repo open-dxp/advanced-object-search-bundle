@@ -15,6 +15,7 @@
 opendxp.registerNS("opendxp.bundle.advancedObjectSearch.searchConfig.resultAbstractPanel");
 opendxp.bundle.advancedObjectSearch.searchConfig.resultAbstractPanel = Class.create(opendxp.object.helpers.gridTabAbstract, {
     systemColumns: ["id", "fullpath", "type", "subtype", "filename", "classname", "creationDate", "modificationDate"],
+    exportSource: 'advanced-object-search',
     noBatchColumns: [],
     batchAppendColumns: [],
     batchRemoveColumns: [],
@@ -29,7 +30,6 @@ opendxp.bundle.advancedObjectSearch.searchConfig.resultAbstractPanel = Class.cre
     initialize: function($super) {
         $super();
 
-        this.exportPrepareUrl = "/admin/bundle/advanced-object-search/admin/get-export-jobs";
         this.batchPrepareUrl = "/admin/bundle/advanced-object-search/admin/get-batch-jobs";
     },
 

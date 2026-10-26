@@ -1,0 +1,10 @@
+parameters:
+    env(OPENDXP_OPEN_SEARCH_HOST): 'localhost:9200'
+
+opendxp_opensearch_client:
+    clients:
+        default:
+            hosts: ['%env(OPENDXP_OPEN_SEARCH_HOST)%']
+
+opendxp_advanced_object_search:
+    index_name_prefix: 'aos_test_'
