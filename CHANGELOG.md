@@ -1,6 +1,9 @@
 # Changelog
 
 ## 1.1.0
+- [BUGFIX] The result grid exports through the grid export of the admin. See [Grid Export](https://github.com/open-dxp/admin-bundle/blob/1.x/docs/10_Extension_Points/08_Grid_Export.md)
+- [CHORE] Remove the old export route of the result grid
+- [CHORE] Require `open-dxp/admin-bundle` ^1.5
 - [CHORE] Replace Codeception with Pest and `open-dxp/test-foundation`
 - [CHORE] Require `open-dxp/opendxp` ^1.5
 

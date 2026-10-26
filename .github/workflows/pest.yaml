@@ -36,6 +36,7 @@ jobs:
             matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
         uses: open-dxp/workflows-collection-public/.github/workflows/reusable-pest-tests.yaml@main
         with:
+            enable_opensearch_service: true
             php_version: ${{ matrix.matrix.php-version }}
             database: ${{ matrix.matrix.database }}
             server_version: ${{ matrix.matrix.server_version }}

@@ -190,37 +190,6 @@ class AdminController extends UserAwareController
         return $this->jsonResponse(['success' => true, 'jobs' => $jobs]);
     }
 
-    protected function getCsvFile(string $fileHandle): string
-    {
-        return $fileHandle . '.csv';
-    }
-
-    #[Route('/get-export-jobs')]
-    public function getExportJobsAction(Request $request, Service $service): JsonResponse
-    {
-        if ($request->request->has('language')) {
-            $request->setLocale($request->request->getString('language'));
-        }
-
-        $data = json_decode($request->request->getString('filter'), true);
-
-        if (empty($ids = $request->request->all('ids'))) {
-            $ids = $service->getIdsFromFilterNoLimit(
-                $data['classId'],
-                $data['conditions']['filters'],
-                $data['conditions']['fulltextSearchTerm']
-            );
-        }
-
-        $jobs = array_chunk($ids, 20);
-
-        $fileHandle = uniqid('export-');
-        $storage = Tool\Storage::get('temp');
-        $storage->write($this->getCsvFile($fileHandle), '');
-
-        return $this->jsonResponse(['success' => true, 'jobs' => $jobs, 'fileHandle' => $fileHandle]);
-    }
-
     #[Route('/save')]
     public function saveAction(Request $request): JsonResponse
     {

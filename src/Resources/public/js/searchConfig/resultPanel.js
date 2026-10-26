@@ -260,14 +260,10 @@ opendxp.bundle.advancedObjectSearch.searchConfig.resultPanel = Class.create(open
             });
             plugins.push(this.cellEditing);
 
-            var exportButtons = this.getExportButtons();
-            var firstButton = exportButtons.pop();
-
-            this.exportButton = new Ext.SplitButton({
-                text: firstButton.text,
-                iconCls: firstButton.iconCls,
-                handler: firstButton.handler,
-                menu: exportButtons,
+            this.exportButton = new Ext.Button({
+                text: t('export'),
+                iconCls: 'opendxp_icon_export',
+                handler: this.startExport.bind(this)
             });
 
             tbar = tbar.concat(['->', "-",
@@ -475,65 +471,24 @@ opendxp.bundle.advancedObjectSearch.searchConfig.resultPanel = Class.create(open
 
     },
 
-    exportPrepare: function (settings, exportType) {
-        var jobs = [];
+    getExportParameters: function () {
+        var columns = this.getGridConfig().columns;
+        var keys = Object.keys(columns).filter(function (key) {
+            return !columns[key].hidden;
+        });
 
-        var fields = this.getGridConfig().columns;
-        var fieldKeys = this.mapRequestParameter(fields);
-
-        //create the ids array which contains chosen rows to export
-        var ids = [];
-        var selectedRows = this.grid.getSelectionModel().getSelection();
-        for (var i = 0; i < selectedRows.length; i++) {
-            ids.push(selectedRows[i].get("id"));
-        }
-
-        var params = {
-            filter: this.getSaveDataCallback(),
-            classId: this.classId,
+        return {
+            search: this.getSaveDataCallback(),
             objecttype: this.objecttype,
             language: this.gridLanguage,
-            "ids[]": ids,
-            "fields[]": fieldKeys,
-            customFilter: Ext.encode(this.extensionBag.getFilterData())
-        };
-
-        settings = Ext.encode(settings);
-
-        Ext.Ajax.request({
-            url: "/admin/bundle/advanced-object-search/admin/get-export-jobs",
-            params: params,
-            method: "POST",
-            success: function (response) {
-                var rdata = Ext.decode(response.responseText);
-
-                var fields = this.getGridConfig().columns;
-                var fieldKeys = this.mapRequestParameter(fields);
-
-                if (rdata.success && rdata.jobs) {
-                    this.exportProcess(rdata.jobs, rdata.fileHandle, fieldKeys, true, settings, exportType);
-                }
-
-            }.bind(this)
-        });
-    },
-
-    mapRequestParameter: function(fields )
-    {
-        var fieldKeys = Object.keys(fields);
-        var fieldKeys2 = [];
-        for(var i = 0; i < fieldKeys.length; i++) {
-            var field = fields[fieldKeys[i]];
-            if(!field.hidden) {
-                var fc = {
-                    key: fieldKeys[i],
-                    label: field.fieldConfig.label,
-
+            fields: keys,
+            columns: keys.map(function (key) {
+                return {
+                    key: key,
+                    label: columns[key].fieldConfig.label
                 };
-                fieldKeys2.push(fc);
-            }
-        }
-        return JSON.stringify(fieldKeys2);
+            })
+        };
     },
 
     openColumnConfig: function () {
@@ -637,22 +592,5 @@ opendxp.bundle.advancedObjectSearch.searchConfig.resultPanel = Class.create(open
         } else {
             return this.gridConfigData;
         }
-    },
-
-    getExportButtons: function () {
-        var buttons = [];
-        opendxp.globalmanager.get("opendxp.object.gridexport").forEach(function (exportType) {
-            buttons.push({
-                text: t(exportType.text),
-                iconCls: exportType.icon || "opendxp_icon_export",
-                handler: function () {
-                    opendxp.helpers.exportWarning(exportType, function (settings) {
-                        this.exportPrepare(settings, exportType);
-                    }.bind(this));
-                }.bind(this),
-            })
-        }.bind(this));
-
-        return buttons;
     }
 });

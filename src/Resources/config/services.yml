@@ -16,6 +16,9 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    OpenDxp\Bundle\AdvancedObjectSearchBundle\GridExport\:
+        resource: '../../GridExport'
+
     OpenDxp\Bundle\AdvancedObjectSearchBundle\Tools\IndexConfigService:
         public: true
         arguments:
