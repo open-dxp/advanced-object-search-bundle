@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.1
+- [CHORE] Check dependencies, code and commits for security issues
+
 ## 1.1.0
 - [BUGFIX] The result grid exports through the grid export of the admin. See [Grid Export](https://github.com/open-dxp/admin-bundle/blob/1.x/docs/10_Extension_Points/08_Grid_Export.md)
 - [CHORE] Remove the old export route of the result grid
